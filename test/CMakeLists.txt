@@ -16,7 +16,7 @@ include(generic-gcc-avr.cmake)
 set(CMAKE_C_COMPILER avr-gcc)
 set(CMAKE_CXX_COMPILER avr-g++)
 
-project(embedded_test NONE)
+project(embedded_test)
 
 message(STATUS "Current uploadtool is: ${AVR_UPLOADTOOL}")
 message(STATUS "Current programmer is: ${AVR_PROGRAMMER}")
