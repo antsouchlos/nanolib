@@ -1,0 +1,1 @@
+/usr/bin/avr-g++ -O0 -save-temps -g -gdwarf-3 -gstrict-dwarf -mmcu=atmega328p -Wl,--gc-sections -mrelax -Wl,-Map,gpio_test-atmega328p.map CMakeFiles/gpio_test-atmega328p.elf.dir/src/main.cpp.obj -o gpio_test-atmega328p.elf 

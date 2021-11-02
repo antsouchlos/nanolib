@@ -1,0 +1,9 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+Language: Cpp
+UseTab: Never
+PointerAlignment: Left
+AccessModifierOffset: -4
+MaxEmptyLinesToKeep: 3
+#ColumnLimit: 100
+CompactNamespaces: true

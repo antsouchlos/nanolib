@@ -1,5 +1,5 @@
-#ifndef CONSTEXPR_UTIL
-#define CONSTEXPR_UTIL
+#ifndef ARDUINO_LIB_CONSTEXPR_UTIL
+#define ARDUINO_LIB_CONSTEXPR_UTIL
 
 
 namespace periph { namespace periph_detail {

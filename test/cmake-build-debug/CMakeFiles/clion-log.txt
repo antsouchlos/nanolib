@@ -1,0 +1,14 @@
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - Unix Makefiles" /home/andreas/git/arduino_lib/test
+-- Current uploadtool is: avrdude
+-- Current programmer is: arduino
+-- Current upload port is: /dev/ttyACM0
+-- Current uploadtool options are: -b115200;-D
+-- Current MCU is set to: atmega328p
+-- Current H_FUSE is set to: 0xd9
+-- Current L_FUSE is set to: 0xc3
+-- Set CMAKE_FIND_ROOT_PATH to /usr/avr
+-- Set CMAKE_SYSTEM_INCLUDE_PATH to /usr/avr/include
+-- Set CMAKE_SYSTEM_LIBRARY_PATH to /usr/avr/lib
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/andreas/git/arduino_lib/test

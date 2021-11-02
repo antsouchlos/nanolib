@@ -1,5 +1,5 @@
-#ifndef PERIPH_BASE
-#define PERIPH_BASE
+#ifndef ARDUINO_LIB_PERIPH_BASE
+#define ARDUINO_LIB_PERIPH_BASE
 
 
 #include <stdint.h>

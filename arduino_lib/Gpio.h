@@ -1,5 +1,5 @@
-#ifndef GPIO_H
-#define GPIO_H
+#ifndef ARDUINO_LIB_GPIO_H
+#define ARDUINO_LIB_GPIO_H
 
 
 #include "register_map.h"
@@ -32,8 +32,6 @@ public:
 		}
 	}
 private:
-
-
 	void set_direction() {
 		if constexpr (Direction_ == Direction::out) {
 			reg::DDRx<Port_>::template DDxn<Pin_>::template write<1>();

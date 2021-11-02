@@ -1,5 +1,5 @@
-#ifndef REGISTER_MAP
-#define REGISTER_MAP
+#ifndef ARDUINO_LIB_REGISTER_MAP
+#define ARDUINO_LIB_REGISTER_MAP
 
 
 #include "periph_base.h"
@@ -11,7 +11,7 @@ namespace periph { namespace periph_detail {
 
 struct gpio_register_set {
 	struct MCUCR {
-		constexpr static uint16_t address = 0x55;
+		constexpr static uint8_t address = 0x55;
 
 		using IVCE  = RegisterValue<MCUCR, 0, 1>;
 		using IVSEL = RegisterValue<MCUCR, 1, 1>;
@@ -22,7 +22,7 @@ struct gpio_register_set {
 
 	template<Port Port_>
 	struct PORTx {
-		constexpr static uint16_t address = 0x25 + 4*get_num(Port_);
+		constexpr static uint8_t address = 0x25 + 4*get_num(Port_);
 
 		template<Pin Pin_>
 		using PORTxn = RegisterValue<PORTx<Port_>, get_num(Pin_), 1>;
@@ -30,7 +30,7 @@ struct gpio_register_set {
 	
 	template<Port Port_>
 	struct DDRx {
-		constexpr static uint16_t address = 0x24;
+		constexpr static uint8_t address = 0x24;
 
 		template<Pin Pin_>
 		using DDxn = RegisterValue<DDRx<Port_>, get_num(Pin_), 1>;
@@ -38,7 +38,7 @@ struct gpio_register_set {
 	
 	template<Port Port_>
 	struct PINx {
-		constexpr static uint16_t address = 0x24;
+		constexpr static uint8_t address = 0x24;
 
 		template<Pin Pin_>
 		using PINxn = RegisterValue<PINx<Port_>, get_num(Pin_), 1>;
