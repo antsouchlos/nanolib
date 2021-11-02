@@ -1,9 +1,0 @@
-/home/andreas/git/arduino_lib/test/CMakeFiles/rebuild_cache.dir
-/home/andreas/git/arduino_lib/test/CMakeFiles/edit_cache.dir
-/home/andreas/git/arduino_lib/test/gpio/CMakeFiles/edit_cache.dir
-/home/andreas/git/arduino_lib/test/gpio/CMakeFiles/disassemble_gpio_test.dir
-/home/andreas/git/arduino_lib/test/gpio/CMakeFiles/upload_gpio_test.dir
-/home/andreas/git/arduino_lib/test/gpio/CMakeFiles/gpio_test.dir
-/home/andreas/git/arduino_lib/test/gpio/CMakeFiles/rebuild_cache.dir
-/home/andreas/git/arduino_lib/test/gpio/CMakeFiles/upload_gpio_test_eeprom.dir
-/home/andreas/git/arduino_lib/test/gpio/CMakeFiles/gpio_test-atmega328p.elf.dir
