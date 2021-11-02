@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_REGISTER_H
-#define ARDUINO_LIB_REGISTER_H
+#ifndef ARDUINO_LIB_REGISTERVALUE_H
+#define ARDUINO_LIB_REGISTERVALUE_H
 
 #include "constexpr_util.h"
 

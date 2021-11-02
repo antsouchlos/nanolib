@@ -3,7 +3,7 @@
 
 
 #include "periph_base.h"
-#include "Register.h"
+#include "RegisterValue.h"
 
 
 namespace periph { namespace periph_detail {
