@@ -101,5 +101,5 @@ add_definitions("-std=c++20")
 ##########################################################################
 include_directories(..)
 
-add_subdirectory(gpio)
+add_avr_executable(gpio gpio.cpp)
 
