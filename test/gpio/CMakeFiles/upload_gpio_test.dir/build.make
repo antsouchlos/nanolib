@@ -68,7 +68,7 @@ include gpio/CMakeFiles/upload_gpio_test.dir/progress.make
 
 gpio/CMakeFiles/upload_gpio_test: gpio/gpio_test-atmega328p.hex
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/andreas/git/arduino_lib/test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Uploading gpio_test-atmega328p.hex to atmega328p using arduino"
-	cd /home/andreas/git/arduino_lib/test/gpio && sudo avrdude -p atmega328p -c arduino -b115200 -D -U flash:w:gpio_test-atmega328p.hex -P /dev/ttyACM0
+	cd /home/andreas/git/arduino_lib/test/gpio && avrdude -p atmega328p -c arduino -b115200 -D -U flash:w:gpio_test-atmega328p.hex -P /dev/ttyACM0
 
 gpio/gpio_test-atmega328p.hex: gpio/gpio_test-atmega328p.elf
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/andreas/git/arduino_lib/test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating gpio_test-atmega328p.hex"
