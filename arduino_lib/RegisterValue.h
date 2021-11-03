@@ -1,11 +1,12 @@
 #ifndef ARDUINO_LIB_REGISTERVALUE_H
 #define ARDUINO_LIB_REGISTERVALUE_H
 
-#include "constexpr_util.h"
 
+#include <stdint.h>
+
+#include "const_util.h"
 #include "type_traits.h" // avr-g++ doesn't seem to recognize type_traits,
                          // so this is used as a drop-in replacement
-#include <stdint.h>
 
 
 namespace periph { namespace periph_detail {
@@ -71,7 +72,7 @@ public:
 
     static void write(uint_t value) {
         constexpr static uint_t mask =
-            ~(static_cast<uint_t>(constexpr_pow<2, Length_>::value - 1) << StartBit_);
+            static_cast<uint_t>( ~(get_bitmask_ones<uint_t, Length_>::value << StartBit_) );
 
         uint_t data = *get_addr_ptr();
         data = data & mask;

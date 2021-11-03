@@ -28,3 +28,4 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 package_add_test(RegisterValue register_value.cpp)
+package_add_test(ConstUtil const_util.cpp)
