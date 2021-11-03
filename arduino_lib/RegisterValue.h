@@ -23,17 +23,15 @@ using uint_double_t = uint16_t;
  */
 
 
-template<uint_single_t Length_>
-struct requires_double_int_t {
+template <uint_single_t Length_> struct requires_double_int_t {
     static_assert(Length_ <= sizeof(uint_double_t) * 8,
                   "Length too long even for double int type");
 
-    enum {value = (Length_ > sizeof(uint_single_t)*8)};
+    enum { value = (Length_ > sizeof(uint_single_t) * 8) };
 };
 
 
-template <uint_single_t Length_, typename T = void>
-struct required_int_t {
+template <uint_single_t Length_, typename T = void> struct required_int_t {
     using type = uint_single_t;
 };
 
@@ -71,8 +69,8 @@ public:
     }
 
     static void write(uint_t value) {
-        constexpr static uint_t mask =
-            static_cast<uint_t>( ~(get_bitmask_ones<uint_t, Length_>::value << StartBit_) );
+        constexpr static uint_t mask = static_cast<uint_t>(
+            ~(get_bitmask_ones<uint_t, Length_>::value << StartBit_));
 
         uint_t data = *get_addr_ptr();
         data = data & mask;
@@ -82,7 +80,8 @@ public:
     }
 
     static uint_t read() {
-        constexpr uint_t mask = static_cast<uint_t>(get_bitmask_ones<uint_t, Length_>::value << StartBit_);
+        constexpr uint_t mask = static_cast<uint_t>(
+            get_bitmask_ones<uint_t, Length_>::value << StartBit_);
 
         uint_t data = *get_addr_ptr();
         data = (data & mask) >> StartBit_;

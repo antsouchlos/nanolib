@@ -5,13 +5,10 @@
 namespace periph {
 
 
-template<>
-class Timer {
-
-};
+template <> class Timer {};
 
 
-} 
+} // namespace periph
 
 
 #endif
