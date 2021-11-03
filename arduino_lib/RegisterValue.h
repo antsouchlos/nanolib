@@ -81,14 +81,13 @@ public:
         *get_addr_ptr() = data;
     }
 
-    template <typename T> static T read_as() {
-        constexpr uint_t mask =
-            (~0u >> (16u - StartBit_ - Length_)) - ~(~0u << StartBit_);
+    static uint_t read() {
+        constexpr uint_t mask = static_cast<uint_t>(get_bitmask_ones<uint_t, Length_>::value << StartBit_);
 
         uint_t data = *get_addr_ptr();
         data = (data & mask) >> StartBit_;
 
-        return static_cast<T>(data);
+        return data;
     }
 };
 

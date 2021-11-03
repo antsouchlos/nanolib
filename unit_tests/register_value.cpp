@@ -50,17 +50,17 @@ namespace {
 
 
     TEST(RegisterValue, write_basic) {
-        constexpr uint8_t val1 = 0b01010101;
-        constexpr uint8_t val2 = 0b1101;
-        constexpr uint8_t val3 = 0b0111;
-        constexpr uint16_t val4 = 0b11110000'10011111;
+        constexpr uint8_t val1 = 0b01010101u;
+        constexpr uint8_t val2 = 0b1101u;
+        constexpr uint8_t val3 = 0b0111u;
+        constexpr uint16_t val4 = 0b11110000'10011111u;
 
         for (auto& elem : REG1_buffer)
-            elem = 0b10111010;
+            elem = 0b10111010u;
         for (auto& elem : REG2_buffer)
-            elem = 0b10101111;
+            elem = 0b10101111u;
         for (auto& elem : REG3_buffer)
-            elem = 0b11100011;
+            elem = 0b11100011u;
 
         register_set::REG1::VAL1::write<val1>();
         EXPECT_EQ(REG1_buffer[0], val1);
@@ -75,42 +75,38 @@ namespace {
     }
 
     TEST(RegisterValue, write_no_overflow) {
-        constexpr uint8_t val1 = 0b01010101;
-        constexpr uint8_t val2 = 0b1101;
-        constexpr uint8_t val3 = 0b0111;
+        constexpr uint8_t val1 = 0b01010101u;
+        constexpr uint8_t val2 = 0b1101u;
+        constexpr uint8_t val3 = 0b0111u;
 
         for (auto& elem : REG1_buffer)
-            elem = 0b11111111;
+            elem = 0b11111111u;
         for (auto& elem : REG2_buffer)
-            elem = 0b11111111;
+            elem = 0b11111111u;
         for (auto& elem : REG3_buffer)
-            elem = 0b11111111;
+            elem = 0b11111111u;
 
         register_set::REG1::VAL1::write<val1>();
-        EXPECT_EQ(REG1_buffer[1], 0b11111111);
+        EXPECT_EQ(REG1_buffer[1], 0b11111111u);
 
         register_set::REG2::VAL1::write<val2>();
         register_set::REG2::VAL2::write<val3>();
-        EXPECT_EQ(REG2_buffer[1], 0b11111111);
+        EXPECT_EQ(REG2_buffer[1], 0b11111111u);
 
         register_set::REG3::VAL1 ::write<val3>();
         EXPECT_EQ(REG3_buffer[1], 0);
     }
 
     TEST(RegisterValue, read_basic) {
-        *(reinterpret_cast<uint16_t*>(REG1_buffer)) = 0b0011;
-        *(reinterpret_cast<uint16_t*>(REG2_buffer)) = 0b0011;
-        *(reinterpret_cast<uint16_t*>(REG3_buffer)) = 0b0011;
+        *(reinterpret_cast<uint16_t*>(REG1_buffer)) = 0b001100'11110000u;
+        EXPECT_EQ(REG1_buffer[0], register_set::REG1::VAL1::read());
 
-//        EXPECT_EQ(REG3_buffer[1], 0);
-    }
+        *(reinterpret_cast<uint16_t*>(REG2_buffer)) = 0b000001'00001000u;
+        EXPECT_EQ(REG2_buffer[0] & 0b00001111u, register_set::REG2::VAL1::read());
+        EXPECT_EQ(REG2_buffer[0] & 0b11110000u, register_set::REG2::VAL2::read());
 
-    TEST(RegisterValue, read_as_other) {
-        *(reinterpret_cast<uint16_t*>(REG1_buffer)) = 0b0011;
-        *(reinterpret_cast<uint16_t*>(REG2_buffer)) = 0b0011;
-        *(reinterpret_cast<uint16_t*>(REG3_buffer)) = 0b0011;
-
-//        EXPECT_EQ(REG3_buffer[1], 0);
+        *(reinterpret_cast<uint16_t*>(REG3_buffer)) = 0b000000'10001111u;
+        EXPECT_EQ(*(reinterpret_cast<uint16_t*>(REG3_buffer)), register_set::REG3::VAL1::read());
     }
 
 
