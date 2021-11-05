@@ -1,2 +1,5 @@
-cmake-build-debug/
-cmake-build-release/
+live_tests/cmake-build-debug/
+live_tests/cmake-build-release/
+unit_tests/cmake-build-debug/
+unit_tests/cmake-build-release/
+.idea
