@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.1)
+
+
 set(AVR_UPLOADTOOL avrdude)
 #set(AVR_PROGRAMMER avrispmkII)
 set(AVR_PROGRAMMER arduino)
@@ -11,8 +14,16 @@ set(AVR_L_FUSE 0xc3)
 
 include(generic-gcc-avr.cmake)
 
-set(CMAKE_C_COMPILER avr-gcc)
-set(CMAKE_CXX_COMPILER avr-g++)
+set(ENV{CC} "avr-gcc")
+set(ENV{CXX} "avr-g++")
+
+include_directories(..)
+
+
+project(arduino_lib_live_tests)
+
+
+add_definitions("-std=c++20")
 
 message(STATUS "Current uploadtool is: ${AVR_UPLOADTOOL}")
 message(STATUS "Current programmer is: ${AVR_PROGRAMMER}")
@@ -101,5 +112,6 @@ add_definitions("-std=c++20")
 ##########################################################################
 include_directories(..)
 
+add_compile_definitions(REQUIRES_TYPE_TRAITS_REP)
 add_avr_executable(gpio gpio.cpp)
 

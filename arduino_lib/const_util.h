@@ -2,9 +2,6 @@
 #define ARDUINO_LIB_CONSTEXPR_UTIL
 
 
-#include <climits>
-
-
 namespace periph { namespace periph_detail {
 
 
@@ -23,7 +20,7 @@ namespace periph { namespace periph_detail {
 template <typename T, uint8_t Num_> struct get_bitmask_ones {
     enum {
         value = static_cast<T>(-(Num_ != 0)) &
-                (static_cast<T>(-1) >> (sizeof(T) * CHAR_BIT - Num_))
+                (static_cast<T>(-1) >> (sizeof(T) * 8 - Num_))
     };
 };
 

@@ -1,3 +1,17 @@
+cmake_minimum_required(VERSION 3.1)
+
+project(arduino_lib_unit_tests)
+
+add_definitions("-std=c++20")
+include_directories(..)
+
+option(PACKAGE_TESTS "Build the tests" ON)
+if(PACKAGE_TESTS)
+    enable_testing()
+    include(GoogleTest)
+endif()
+
+
 add_subdirectory("${PROJECT_SOURCE_DIR}/extern/googletest" "extern/googletest")
 
 mark_as_advanced(
@@ -27,5 +41,5 @@ macro(package_add_test TESTNAME)
     set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
 endmacro()
 
-package_add_test(RegisterValue register_value.cpp)
-package_add_test(ConstUtil const_util.cpp)
+package_add_test(RegisterValue src/register_value.cpp)
+package_add_test(ConstUtil src/const_util.cpp)
