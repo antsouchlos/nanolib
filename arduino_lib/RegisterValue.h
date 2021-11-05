@@ -75,7 +75,7 @@ public:
         uint_t data = *get_addr_ptr();
         data = data & mask;
         data = data | (value << StartBit_);
-git
+
         *get_addr_ptr() = data;
     }
 
