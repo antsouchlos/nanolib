@@ -24,7 +24,7 @@ $ git clone git@github.com:antsouchlos/nanolib.git && cd nanolib
 
 2. Clone the googletest submodule and enter the unit-test directory
 ```shell
-$ git submodule init && git submodule update && cd unit_tests
+$ git submodule init && git submodule update && cd test
 ```
 
 3. Create the build directory and build the project
