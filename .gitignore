@@ -1,5 +1,7 @@
-live_tests/cmake-build-debug/
-live_tests/cmake-build-release/
+examples/cmake-build-debug/
+examples/cmake-build-release/
+examples/build/
 unit_tests/cmake-build-debug/
 unit_tests/cmake-build-release/
+unit_tests/build/
 .idea
