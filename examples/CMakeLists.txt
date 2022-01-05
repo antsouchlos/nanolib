@@ -12,7 +12,7 @@ set(AVR_H_FUSE 0xd9)
 set(AVR_L_FUSE 0xc3)
 
 
-include(generic-gcc-avr.cmake)
+include(cmake/generic-gcc-avr.cmake)
 
 set(ENV{CC} "avr-gcc")
 set(ENV{CXX} "avr-g++")
@@ -113,5 +113,5 @@ add_definitions("-std=c++20")
 include_directories(..)
 
 add_compile_definitions(REQUIRES_TYPE_TRAITS_REP)
-add_avr_executable(gpio gpio.cpp)
+add_avr_executable(gpio src/gpio/gpio.cpp)
 
