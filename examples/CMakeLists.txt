@@ -17,7 +17,7 @@ include(cmake/generic-gcc-avr.cmake)
 set(ENV{CC} "avr-gcc")
 set(ENV{CXX} "avr-g++")
 
-include_directories(..)
+include_directories(../include)
 
 
 project(arduino_lib_live_tests)
