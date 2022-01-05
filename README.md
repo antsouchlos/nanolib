@@ -11,7 +11,31 @@ As this is a header only library, it is enough to simply include the desired hea
 
 ### The examples
 
-[TODO]
+1. Install the necessary tools
+```shell
+$ sudo apt-get install arduino-avr-core avr-binutils avr-gcc avr-libc avrdude 
+```
+
+2. Clone the repo and enter the examples folder
+```shell
+$ git clone git@github.com:antsouchlos/nanolib.git && cd nanolib/examples
+```
+3. Select the example to compile in `CMakeLists.txt`
+```cmake
+...
+add_avr_executable(gpio src/gpio/gpio.cpp)
+...
+```
+
+4. Create the build directory and build the project
+```shell
+$ cmake -B build -S . && cmake --build build
+```
+
+5. Upload the compiled binary onto the arduino
+```shell
+$ cd build && make flash
+```
 
 ## Tests
 
