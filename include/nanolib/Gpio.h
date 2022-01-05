@@ -27,8 +27,7 @@ public:
                 bool>();
         } else {
             // TODO: Check if this works
-            return reg::PINx<Port_>::template PINxn<Pin_>::template read_as<
-                bool>();
+            return reg::PINx<Port_>::template PINxn<Pin_>::read();
         }
     }
 

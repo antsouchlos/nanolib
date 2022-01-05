@@ -20,21 +20,15 @@ $ sudo apt-get install arduino-avr-core avr-binutils avr-gcc avr-libc avrdude
 ```shell
 $ git clone git@github.com:antsouchlos/nanolib.git && cd nanolib/examples
 ```
-3. Select the example to compile in `CMakeLists.txt`
-```cmake
-...
-add_avr_executable(gpio src/gpio/gpio.cpp)
-...
-```
 
-4. Create the build directory and build the project
+3. Create the build directory and build the project
 ```shell
 $ cmake -B build -S . && cmake --build build
 ```
 
-5. Upload the compiled binary onto the arduino
+4. Upload the desired example binary onto the arduino
 ```shell
-$ cd build && make flash
+$ cd build && make upload_gpio
 ```
 
 ## Tests
