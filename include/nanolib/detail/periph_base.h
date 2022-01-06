@@ -17,8 +17,8 @@ enum class Direction { in, out };
 // clang-format on
 
 
-template <typename EnumT_>
-constexpr inline uint16_t get_num(EnumT_ val) {
+template <typename enum_t>
+constexpr inline uint16_t get_num(enum_t val) {
     return static_cast<uint16_t>(val);
 }
 

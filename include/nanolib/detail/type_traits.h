@@ -9,7 +9,7 @@
 namespace std {
 
 
-template <bool B>
+template <bool t_b>
 struct enable_if;
 
 template <>

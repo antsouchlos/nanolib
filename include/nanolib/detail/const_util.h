@@ -5,31 +5,31 @@
 namespace periph { namespace periph_detail {
 
 
-// template<uint16_t Base_, uint16_t Exponent_>
+// template<uint16_t t_base, uint16_t t_exponent>
 // struct constexpr_pow {
-//    constexpr static uint16_t value = Base_ * constexpr_pow<Base_, Exponent_ -
+//    constexpr static uint16_t value = t_base * constexpr_pow<t_base, t_exponent -
 //    1>::value;
 //};
 //
-// template<uint16_t Base_>
-// struct constexpr_pow<Base_, 0> {
+// template<uint16_t t_base>
+// struct constexpr_pow<t_base, 0> {
 //    constexpr static uint16_t value = 1;
 //};
 
 
-template <typename T, uint8_t Num_>
+template <typename int_t, uint8_t t_num>
 struct get_bitmask_ones {
     enum {
-        value = static_cast<T>(-(Num_ != 0)) &
-                (static_cast<T>(-1) >> (sizeof(T) * 8 - Num_))
+        value = static_cast<int_t>(-(t_num != 0)) &
+                (static_cast<int_t>(-1) >> (sizeof(int_t) * 8 - t_num))
     };
 };
 
 
-template <uint16_t Value_, uint16_t Bits_>
+template <uint16_t t_value, uint16_t t_bits>
 struct has_no_more_bits {
     constexpr static uint16_t value =
-        ((Value_ & ~(get_bitmask_ones<uint16_t, Bits_>::value)) == 0);
+        ((t_value & ~(get_bitmask_ones<uint16_t, t_bits>::value)) == 0);
 };
 
 

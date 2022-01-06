@@ -20,28 +20,28 @@ struct gpio_register_set {
         using BODS  = RegisterValue<MCUCR, 6, 1>;
     };
 
-    template <Port Port_>
+    template <Port t_port>
     struct PORTx {
-        constexpr static uint8_t address = 0x25 + 4 * get_num(Port_);
+        constexpr static uint8_t address = 0x25 + 4 * get_num(t_port);
 
-        template <Pin Pin_>
-        using PORTxn = RegisterValue<PORTx<Port_>, get_num(Pin_), 1>;
+        template <Pin t_pin>
+        using PORTxn = RegisterValue<PORTx<t_port>, get_num(t_pin), 1>;
     };
 
-    template <Port Port_>
+    template <Port t_port>
     struct DDRx {
         constexpr static uint8_t address = 0x24;
 
-        template <Pin Pin_>
-        using DDxn = RegisterValue<DDRx<Port_>, get_num(Pin_), 1>;
+        template <Pin t_pin>
+        using DDxn = RegisterValue<DDRx<t_port>, get_num(t_pin), 1>;
     };
 
-    template <Port Port_>
+    template <Port t_port>
     struct PINx {
         constexpr static uint8_t address = 0x24;
 
-        template <Pin Pin_>
-        using PINxn = RegisterValue<PINx<Port_>, get_num(Pin_), 1>;
+        template <Pin t_pin>
+        using PINxn = RegisterValue<PINx<t_port>, get_num(t_pin), 1>;
     };
 };
 
