@@ -13,12 +13,12 @@ As this is a header only library, it is enough to simply include the desired hea
 
 1. Install the necessary tools
 ```shell
-$ sudo apt-get install arduino-avr-core avr-binutils avr-gcc avr-libc avrdude 
+$ sudo apt-get install gcc-avr avr-libc avrdude
 ```
 
 2. Clone the repo and enter the examples folder
 ```shell
-$ git clone git@github.com:antsouchlos/nanolib.git && cd nanolib/examples
+$ git clone https://github.com/antsouchlos/nanolib.git && cd nanolib/examples
 ```
 
 3. Create the build directory and build the project
@@ -37,7 +37,7 @@ Unit testing is done with the `googletest` framework.
 
 1. Clone the repo
 ```shell
-$ git clone git@github.com:antsouchlos/nanolib.git && cd nanolib
+$ git clone https://github.com/antsouchlos/nanolib.git && cd nanolib
 ```
 
 2. Clone the googletest submodule and enter the unit-test directory
