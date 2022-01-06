@@ -7,8 +7,8 @@ namespace periph { namespace periph_detail {
 
 // template<uint16_t t_base, uint16_t t_exponent>
 // struct constexpr_pow {
-//    constexpr static uint16_t value = t_base * constexpr_pow<t_base, t_exponent -
-//    1>::value;
+//    constexpr static uint16_t value = t_base * constexpr_pow<t_base,
+//    t_exponent - 1>::value;
 //};
 //
 // template<uint16_t t_base>
