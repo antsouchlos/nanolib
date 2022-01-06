@@ -20,7 +20,7 @@ set(ENV{CXX} "avr-g++")
 include_directories(../include)
 
 
-project(arduino_lib_live_tests)
+project(nanolib_examples)
 
 
 message(STATUS "Current uploadtool is: ${AVR_UPLOADTOOL}")
