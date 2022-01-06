@@ -17,7 +17,8 @@ namespace periph { namespace periph_detail {
 //};
 
 
-template <typename T, uint8_t Num_> struct get_bitmask_ones {
+template <typename T, uint8_t Num_>
+struct get_bitmask_ones {
     enum {
         value = static_cast<T>(-(Num_ != 0)) &
                 (static_cast<T>(-1) >> (sizeof(T) * 8 - Num_))
@@ -25,7 +26,8 @@ template <typename T, uint8_t Num_> struct get_bitmask_ones {
 };
 
 
-template <uint16_t Value_, uint16_t Bits_> struct has_no_more_bits {
+template <uint16_t Value_, uint16_t Bits_>
+struct has_no_more_bits {
     constexpr static uint16_t value =
         ((Value_ & ~(get_bitmask_ones<uint16_t, Bits_>::value)) == 0);
 };

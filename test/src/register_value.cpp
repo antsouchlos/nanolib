@@ -1,5 +1,5 @@
-#include <nanolib/detail/RegisterValue.h>
 #include <gtest/gtest.h>
+#include <nanolib/detail/RegisterValue.h>
 
 
 using namespace periph::periph_detail;
@@ -53,9 +53,9 @@ std::size_t register_set::REG3::address =
 
 
 TEST(RegisterValue, write_basic) {
-    constexpr uint8_t val1 = 0b01010101u;
-    constexpr uint8_t val2 = 0b1101u;
-    constexpr uint8_t val3 = 0b0111u;
+    constexpr uint8_t  val1 = 0b01010101u;
+    constexpr uint8_t  val2 = 0b1101u;
+    constexpr uint8_t  val3 = 0b0111u;
     constexpr uint16_t val4 = 0b11110000'10011111u;
 
     for (auto& elem : REG1_buffer)

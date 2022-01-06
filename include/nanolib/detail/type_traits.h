@@ -5,16 +5,23 @@
 #include <type_traits>
 #else
 
+
 namespace std {
 
 
-template <bool B> struct enable_if;
+template <bool B>
+struct enable_if;
 
-template <> struct enable_if<true> { using type = void; };
-template <> struct enable_if<false> {};
+template <>
+struct enable_if<true> {
+    using type = void;
+};
+template <>
+struct enable_if<false> {};
 
 
 } // namespace std
+
 
 #endif
 

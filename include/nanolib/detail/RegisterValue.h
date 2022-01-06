@@ -23,7 +23,8 @@ using uint_double_t = uint16_t;
  */
 
 
-template <uint_single_t Length_> struct requires_double_int_t {
+template <uint_single_t Length_>
+struct requires_double_int_t {
     static_assert(Length_ <= sizeof(uint_double_t) * 8,
                   "Length too long even for double int type");
 
@@ -31,7 +32,8 @@ template <uint_single_t Length_> struct requires_double_int_t {
 };
 
 
-template <uint_single_t Length_, typename T = void> struct required_int_t {
+template <uint_single_t Length_, typename T = void>
+struct required_int_t {
     using type = uint_single_t;
 };
 
@@ -61,7 +63,8 @@ private:
     }
 
 public:
-    template <uint_double_t Value> static void write() {
+    template <uint_double_t Value>
+    static void write() {
         static_assert(has_no_more_bits<Value, Length_>::value,
                       "More bits written to register value then it is long");
 
@@ -73,8 +76,8 @@ public:
             ~(get_bitmask_ones<uint_t, Length_>::value << StartBit_));
 
         uint_t data = *get_addr_ptr();
-        data = data & mask;
-        data = data | (value << StartBit_);
+        data        = data & mask;
+        data        = data | (value << StartBit_);
 
         *get_addr_ptr() = data;
     }
@@ -84,7 +87,7 @@ public:
             get_bitmask_ones<uint_t, Length_>::value << StartBit_);
 
         uint_t data = *get_addr_ptr();
-        data = (data & mask) >> StartBit_;
+        data        = (data & mask) >> StartBit_;
 
         return data;
     }
