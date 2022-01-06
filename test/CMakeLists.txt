@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 
 project(nanolib_unit_tests)
 
-add_definitions("-std=c++20")
+add_definitions("-std=c++17")
 include_directories(../include)
 
 option(PACKAGE_TESTS "Build the tests" ON)
