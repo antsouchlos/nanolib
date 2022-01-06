@@ -1,11 +1,12 @@
-#ifndef ARDUINO_LIB_TIMER_H
-#define ARDUINO_LIB_TIMER_H
+#ifndef NANOLIB_TIMER_H
+#define NANOLIB_TIMER_H
 
 
 namespace periph {
 
 
-template <> class Timer {};
+//template <>
+//class Timer {};
 
 
 } // namespace periph

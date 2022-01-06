@@ -1,20 +1,27 @@
-#ifndef ARDUINO_LIB_TYPE_TRAITS
-#define ARDUINO_LIB_TYPE_TRAITS
+#ifndef NANOLIB_TYPE_TRAITS_H
+#define NANOLIB_TYPE_TRAITS_H
 
 #ifndef REQUIRES_TYPE_TRAITS_REP
 #include <type_traits>
 #else
 
+
 namespace std {
 
 
-template <bool B> struct enable_if;
+template <bool t_b>
+struct enable_if;
 
-template <> struct enable_if<true> { using type = void; };
-template <> struct enable_if<false> {};
+template <>
+struct enable_if<true> {
+    using type = void;
+};
+template <>
+struct enable_if<false> {};
 
 
 } // namespace std
+
 
 #endif
 

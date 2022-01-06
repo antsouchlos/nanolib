@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_GPIO_H
-#define ARDUINO_LIB_GPIO_H
+#ifndef NANOLIB_GPIO_H
+#define NANOLIB_GPIO_H
 
 
 #include "detail/register_map.h"
@@ -9,7 +9,7 @@ namespace periph {
 
 
 // TODO: Add support for pullup resistors
-template <Port Port_, Pin Pin_, Direction Direction_>
+template <Port t_port, Pin t_pin, Direction t_direction>
 class Gpio {
 
     using reg = periph_detail::gpio_register_set;
@@ -20,27 +20,27 @@ public:
     }
 
     void write(bool value) {
-        static_assert(Direction_ == Direction::out,
+        static_assert(t_direction == Direction::out,
                       "Only output pins can be written to");
-        reg::PORTx<Port_>::template PORTxn<Pin_>::write(value);
+        reg::PORTx<t_port>::template PORTxn<t_pin>::write(value);
     }
 
     bool read() {
-        if constexpr (Direction_ == Direction::out) {
-            return reg::PORTx<Port_>::template PORTxn<Pin_>::template read_as<
+        if constexpr (t_direction == Direction::out) {
+            return reg::PORTx<t_port>::template PORTxn<t_pin>::template read_as<
                 bool>();
         } else {
             // TODO: Check if this works
-            return reg::PINx<Port_>::template PINxn<Pin_>::read();
+            return reg::PINx<t_port>::template PINxn<t_pin>::read();
         }
     }
 
 private:
     void set_direction() {
-        if constexpr (Direction_ == Direction::out) {
-            reg::DDRx<Port_>::template DDxn<Pin_>::template write<1>();
+        if constexpr (t_direction == Direction::out) {
+            reg::DDRx<t_port>::template DDxn<t_pin>::template write<1>();
         } else {
-            reg::DDRx<Port_>::template DDxn<Pin_>::template write<0>();
+            reg::DDRx<t_port>::template DDxn<t_pin>::template write<0>();
         }
     }
 };

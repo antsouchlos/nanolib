@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(arduino_lib_unit_tests)
+project(nanolib_unit_tests)
 
 add_definitions("-std=c++20")
 include_directories(../include)

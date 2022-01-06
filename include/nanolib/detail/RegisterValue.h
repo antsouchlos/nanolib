@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_REGISTERVALUE_H
-#define ARDUINO_LIB_REGISTERVALUE_H
+#ifndef NANOLIB_REGISTERVALUE_H
+#define NANOLIB_REGISTERVALUE_H
 
 
 #include <stdint.h>
@@ -23,22 +23,25 @@ using uint_double_t = uint16_t;
  */
 
 
-template <uint_single_t Length_> struct requires_double_int_t {
-    static_assert(Length_ <= sizeof(uint_double_t) * 8,
+template <uint_single_t t_length>
+struct requires_double_int_t {
+    static_assert(t_length <= sizeof(uint_double_t) * 8,
                   "Length too long even for double int type");
 
-    enum { value = (Length_ > sizeof(uint_single_t) * 8) };
+    enum { value = (t_length > sizeof(uint_single_t) * 8) };
 };
 
 
-template <uint_single_t Length_, typename T = void> struct required_int_t {
+// TODO: Can the last template parameter be nameless?
+template <uint_single_t t_length, typename T = void>
+struct required_int_t {
     using type = uint_single_t;
 };
 
-template <uint_single_t Length_>
+template <uint_single_t t_length>
 struct required_int_t<
-    Length_,
-    typename std::enable_if<requires_double_int_t<Length_>::value>::type> {
+    t_length,
+    typename std::enable_if<requires_double_int_t<t_length>::value>::type> {
 
     using type = uint_double_t;
 };
@@ -51,40 +54,41 @@ struct required_int_t<
  */
 
 
-template <typename Register_, uint8_t StartBit_, uint8_t Length_>
+template <typename t_register, uint8_t t_start_bit, uint8_t t_length>
 class RegisterValue {
 private:
-    using uint_t = typename required_int_t<Length_>::type;
+    using uint_t = typename required_int_t<t_length>::type;
 
     static volatile uint_t* get_addr_ptr() {
-        return reinterpret_cast<volatile uint_t*>(Register_::address);
+        return reinterpret_cast<volatile uint_t*>(t_register::address);
     }
 
 public:
-    template <uint_double_t Value> static void write() {
-        static_assert(has_no_more_bits<Value, Length_>::value,
+    template <uint_double_t t_value>
+    static void write() {
+        static_assert(has_no_more_bits<t_value, t_length>::value,
                       "More bits written to register value then it is long");
 
-        write(static_cast<uint_t>(Value));
+        write(static_cast<uint_t>(t_value));
     }
 
     static void write(uint_t value) {
         constexpr static uint_t mask = static_cast<uint_t>(
-            ~(get_bitmask_ones<uint_t, Length_>::value << StartBit_));
+            ~(get_bitmask_ones<uint_t, t_length>::value << t_start_bit));
 
         uint_t data = *get_addr_ptr();
-        data = data & mask;
-        data = data | (value << StartBit_);
+        data        = data & mask;
+        data        = data | (value << t_start_bit);
 
         *get_addr_ptr() = data;
     }
 
     static uint_t read() {
         constexpr uint_t mask = static_cast<uint_t>(
-            get_bitmask_ones<uint_t, Length_>::value << StartBit_);
+            get_bitmask_ones<uint_t, t_length>::value << t_start_bit);
 
         uint_t data = *get_addr_ptr();
-        data = (data & mask) >> StartBit_;
+        data        = (data & mask) >> t_start_bit;
 
         return data;
     }

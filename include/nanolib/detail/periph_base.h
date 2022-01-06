@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_PERIPH_BASE
-#define ARDUINO_LIB_PERIPH_BASE
+#ifndef NANOLIB_PERIPH_BASE_H
+#define NANOLIB_PERIPH_BASE_H
 
 
 #include <stdint.h>
@@ -8,11 +8,17 @@
 namespace periph {
 
 
-enum class Port { B, C, D };
-enum class Pin { _0, _1, _2, _3, _4, _5, _6, _7 };
+// clang-format off
+
+enum class Port      { B, C, D };
+enum class Pin       { _0, _1, _2, _3, _4, _5, _6, _7 };
 enum class Direction { in, out };
 
-template <typename EnumT_> constexpr inline uint16_t get_num(EnumT_ val) {
+// clang-format on
+
+
+template <typename enum_t>
+constexpr inline uint16_t get_num(enum_t val) {
     return static_cast<uint16_t>(val);
 }
 
