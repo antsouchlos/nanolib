@@ -2,7 +2,7 @@
 #define ARDUINO_LIB_GPIO_H
 
 
-#include "register_map.h"
+#include "detail/register_map.h"
 
 
 namespace periph {

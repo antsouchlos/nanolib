@@ -1,4 +1,4 @@
-#include <nanolib/RegisterValue.h>
+#include <nanolib/detail/RegisterValue.h>
 #include <gtest/gtest.h>
 
 
