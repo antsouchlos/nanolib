@@ -23,8 +23,6 @@ include_directories(../include)
 project(arduino_lib_live_tests)
 
 
-add_definitions("-std=c++17")
-
 message(STATUS "Current uploadtool is: ${AVR_UPLOADTOOL}")
 message(STATUS "Current programmer is: ${AVR_PROGRAMMER}")
 message(STATUS "Current upload port is: ${AVR_UPLOADTOOL_PORT}")
