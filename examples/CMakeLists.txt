@@ -23,7 +23,7 @@ include_directories(../include)
 project(arduino_lib_live_tests)
 
 
-add_definitions("-std=c++20")
+add_definitions("-std=c++17")
 
 message(STATUS "Current uploadtool is: ${AVR_UPLOADTOOL}")
 message(STATUS "Current programmer is: ${AVR_PROGRAMMER}")
@@ -104,7 +104,7 @@ add_definitions("-funsigned-char")
 add_definitions("-funsigned-bitfields")
 add_definitions("-ffunction-sections")
 add_definitions("-c")
-add_definitions("-std=c++20")
+add_definitions("-std=c++17")
 #add_definitions("-O0")
 
 ##########################################################################

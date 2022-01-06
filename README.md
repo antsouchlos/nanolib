@@ -17,7 +17,7 @@ As this is a header only library, it is enough to simply include the desired hea
 $ sudo pacman -S arduino-avr-core avr-binutils avr-gcc avr-libc avrdude 
 ```
 On a non-arch-linux system, use your native package manager. Be aware, however, that
-this library depends on some `C++20` features, which means a relatively recent
+this library depends on some `c++17` features, which means a relatively recent
 build of `gcc` is required. You may have to build it from source yourself.
 
 2. Clone the repo and enter the examples folder
