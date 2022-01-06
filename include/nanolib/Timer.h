@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_TIMER_H
-#define ARDUINO_LIB_TIMER_H
+#ifndef NANOLIB_TIMER_H
+#define NANOLIB_TIMER_H
 
 
 namespace periph {

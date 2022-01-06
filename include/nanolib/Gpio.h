@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_GPIO_H
-#define ARDUINO_LIB_GPIO_H
+#ifndef NANOLIB_GPIO_H
+#define NANOLIB_GPIO_H
 
 
 #include "detail/register_map.h"

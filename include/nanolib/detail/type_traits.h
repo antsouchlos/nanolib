@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_TYPE_TRAITS
-#define ARDUINO_LIB_TYPE_TRAITS
+#ifndef NANOLIB_TYPE_TRAITS_H
+#define NANOLIB_TYPE_TRAITS_H
 
 #ifndef REQUIRES_TYPE_TRAITS_REP
 #include <type_traits>

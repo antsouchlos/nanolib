@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_REGISTER_MAP
-#define ARDUINO_LIB_REGISTER_MAP
+#ifndef NANOLIB_REGISTER_MAP_H
+#define NANOLIB_REGISTER_MAP_H
 
 
 #include "RegisterValue.h"

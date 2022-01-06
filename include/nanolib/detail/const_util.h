@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_CONSTEXPR_UTIL
-#define ARDUINO_LIB_CONSTEXPR_UTIL
+#ifndef NANOLIB_CONST_UTIL_H
+#define NANOLIB_CONST_UTIL_H
 
 
 namespace periph { namespace periph_detail {

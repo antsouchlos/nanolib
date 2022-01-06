@@ -1,5 +1,5 @@
-#ifndef ARDUINO_LIB_PERIPH_BASE
-#define ARDUINO_LIB_PERIPH_BASE
+#ifndef NANOLIB_PERIPH_BASE_H
+#define NANOLIB_PERIPH_BASE_H
 
 
 #include <stdint.h>
