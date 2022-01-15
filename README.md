@@ -73,16 +73,3 @@ done through templates:
 ```c++
 Gpio<Port::F, Pin::_2, Direction::out> led_blue;
 ```
-
-#### Advanced configuration
-[TODO]
-
-#### Compile-time config checking
-[TODO - Example]
-
-#### System class
-[TODO]
-
-#### A working example
-[TODO]
-
