@@ -5,18 +5,6 @@
 namespace periph { namespace periph_detail {
 
 
-// template<uint16_t t_base, uint16_t t_exponent>
-// struct constexpr_pow {
-//    constexpr static uint16_t value = t_base * constexpr_pow<t_base,
-//    t_exponent - 1>::value;
-//};
-//
-// template<uint16_t t_base>
-// struct constexpr_pow<t_base, 0> {
-//    constexpr static uint16_t value = 1;
-//};
-
-
 template <typename int_t, uint8_t t_num>
 struct get_bitmask_ones {
     enum {

@@ -6,6 +6,10 @@
 #else
 
 
+// avr-g++ doesn't seem to recognize type_traits,
+// so this is used as a drop-in replacement
+
+
 namespace std {
 
 
