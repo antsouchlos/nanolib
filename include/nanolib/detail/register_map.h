@@ -72,19 +72,19 @@ struct timer_register_set {
     struct TCNT0 {
         constexpr static uint8_t address = 0x46;
 
-        using TCNT0_v = RegisterValue<TCNT0, 0, 7>;
+        using TCNT0_v = RegisterValue<TCNT0, 0, 8>;
     };
 
     struct OCR0A {
         constexpr static uint8_t address = 0x47;
 
-        using OCR0A_v = RegisterValue<OCR0A, 0, 7>;
+        using OCR0A_v = RegisterValue<OCR0A, 0, 8>;
     };
 
     struct OCR0B {
         constexpr static uint8_t address = 0x48;
 
-        using OCR0B_v = RegisterValue<OCR0B, 0, 7>;
+        using OCR0B_v = RegisterValue<OCR0B, 0, 8>;
     };
 
     struct TIMSK0 {
