@@ -46,6 +46,65 @@ struct gpio_register_set {
 };
 
 
+struct timer_register_set {
+    struct TCCR0A {
+        constexpr static uint8_t address = 0x44;
+
+        using WGM00  = RegisterValue<TCCR0A, 0, 1>;
+        using WGM01  = RegisterValue<TCCR0A, 1, 1>;
+        using COM0B0 = RegisterValue<TCCR0A, 4, 1>;
+        using COM0B1 = RegisterValue<TCCR0A, 5, 1>;
+        using COM0A0 = RegisterValue<TCCR0A, 6, 1>;
+        using COM0A1 = RegisterValue<TCCR0A, 7, 1>;
+    };
+
+    struct TCCR0B {
+        constexpr static uint8_t address = 0x45;
+
+        using CS00  = RegisterValue<TCCR0B, 0, 1>;
+        using CS01  = RegisterValue<TCCR0B, 1, 1>;
+        using CS02  = RegisterValue<TCCR0B, 2, 1>;
+        using WGM02 = RegisterValue<TCCR0B, 3, 1>;
+        using FOC0B = RegisterValue<TCCR0B, 6, 1>;
+        using FOC0A = RegisterValue<TCCR0B, 7, 1>;
+    };
+
+    struct TCNT0 {
+        constexpr static uint8_t address = 0x46;
+
+        using TCNT0_v = RegisterValue<TCNT0, 0, 7>;
+    };
+
+    struct OCR0A {
+        constexpr static uint8_t address = 0x47;
+
+        using OCR0A_v = RegisterValue<OCR0A, 0, 7>;
+    };
+
+    struct OCR0B {
+        constexpr static uint8_t address = 0x48;
+
+        using OCR0B_v = RegisterValue<OCR0B, 0, 7>;
+    };
+
+    struct TIMSK0 {
+        constexpr static uint8_t address = 0x6E;
+
+        using TOIE0  = RegisterValue<TIMSK0, 0, 1>;
+        using OCIE0A = RegisterValue<TIMSK0, 1, 1>;
+        using OCIE0B = RegisterValue<TIMSK0, 2, 1>;
+    };
+
+    struct TIFR0 {
+        constexpr static uint8_t address = 0x35;
+
+        using TOV0  = RegisterValue<TIFR0, 0, 1>;
+        using OCF0A = RegisterValue<TIFR0, 1, 1>;
+        using OCF0B = RegisterValue<TIFR0, 2, 1>;
+    };
+};
+
+
 }} // namespace periph::periph_detail
 
 

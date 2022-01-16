@@ -2,6 +2,9 @@
 #define NANOLIB_TIMER_H
 
 
+#include "detail/register_map.h"
+
+
 namespace periph {
 
 
