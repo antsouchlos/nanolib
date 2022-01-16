@@ -22,7 +22,7 @@ struct gpio_register_set {
 
     template <Port t_port>
     struct PORTx {
-        constexpr static uint8_t address = 0x25 + 4 * get_num(t_port);
+        constexpr static uint8_t address = 0x25 + 0x3 * get_num(t_port);
 
         template <Pin t_pin>
         using PORTxn = RegisterValue<PORTx<t_port>, get_num(t_pin), 1>;
@@ -30,7 +30,7 @@ struct gpio_register_set {
 
     template <Port t_port>
     struct DDRx {
-        constexpr static uint8_t address = 0x24;
+        constexpr static uint8_t address = 0x24 + 0x3 * get_num(t_port);
 
         template <Pin t_pin>
         using DDxn = RegisterValue<DDRx<t_port>, get_num(t_pin), 1>;
@@ -38,7 +38,7 @@ struct gpio_register_set {
 
     template <Port t_port>
     struct PINx {
-        constexpr static uint8_t address = 0x24;
+        constexpr static uint8_t address = 0x23 + 0x3 * get_num(t_port);
 
         template <Pin t_pin>
         using PINxn = RegisterValue<PINx<t_port>, get_num(t_pin), 1>;
