@@ -46,6 +46,7 @@ struct gpio_register_set {
 };
 
 
+template <TimerModule t_module>
 struct timer_register_set {
     struct TCCR0A {
         constexpr static uint8_t address = 0x44;
@@ -102,7 +103,89 @@ struct timer_register_set {
         using OCF0A = RegisterValue<TIFR0, 1, 1>;
         using OCF0B = RegisterValue<TIFR0, 2, 1>;
     };
+
+    struct GTCCR {
+        using PSRSYNC = RegisterValue<GTCCR, 0, 1>;
+        using PSRASY  = RegisterValue<GTCCR, 0, 1>;
+        using TSM     = RegisterValue<GTCCR, 7, 1>;
+    };
 };
+
+template <>
+struct timer_register_set<TimerModule::_1> {
+    struct TCCR1A {
+        constexpr static uint8_t address = 0x80;
+
+        using WGM10  = RegisterValue<TCCR1A, 0, 1>;
+        using WGM11  = RegisterValue<TCCR1A, 1, 1>;
+        using COM1B0 = RegisterValue<TCCR1A, 4, 1>;
+        using COM1B1 = RegisterValue<TCCR1A, 5, 1>;
+        using COM1A0 = RegisterValue<TCCR1A, 6, 1>;
+        using COM1A1 = RegisterValue<TCCR1A, 7, 1>;
+    };
+
+    struct TCCR1B {
+        constexpr static uint8_t address = 0x81;
+
+        using CS10  = RegisterValue<TCCR1B, 0, 1>;
+        using CS11  = RegisterValue<TCCR1B, 1, 1>;
+        using CS12  = RegisterValue<TCCR1B, 2, 1>;
+        using WGM12 = RegisterValue<TCCR1B, 3, 1>;
+        using WGM13 = RegisterValue<TCCR1B, 4, 1>;
+        using ICES1 = RegisterValue<TCCR1B, 6, 1>;
+        using ICNC1 = RegisterValue<TCCR1B, 7, 1>;
+    };
+
+    struct TCCR1C {
+        constexpr static uint8_t address = 0x82;
+
+        using FOC1B = RegisterValue<TCCR1C, 6, 1>;
+        using FOC1A = RegisterValue<TCCR1C, 7, 1>;
+    };
+
+    struct TCNT1 {
+        constexpr static uint8_t address = 0x84;
+
+        using TCNT1_v = RegisterValue<TCNT1, 0, 16>;
+    };
+
+    struct OCR1A {
+        constexpr static uint8_t address = 0x88;
+
+        using OCR1A_v = RegisterValue<OCR1A, 0, 16>;
+    };
+
+    struct OCR1B {
+        constexpr static uint8_t address = 0x8A;
+
+        using OCR1B_v = RegisterValue<OCR1B, 0, 16>;
+    };
+
+    struct ICR1 {
+        constexpr static uint8_t address = 0x86;
+
+        using ICR1_v = RegisterValue<ICR1, 0, 16>;
+    };
+
+    struct TIMSK1 {
+        constexpr static uint8_t address = 0x6F;
+
+        using TOIE1  = RegisterValue<TIMSK1, 0, 1>;
+        using OCIE1A = RegisterValue<TIMSK1, 1, 1>;
+        using OCIE1B = RegisterValue<TIMSK1, 2, 1>;
+        using ICIE1  = RegisterValue<TIMSK1, 5, 1>;
+    };
+
+    struct TIFR1 {
+        constexpr static uint8_t address = 0x36;
+
+        using TOV1  = RegisterValue<TIFR1, 0, 1>;
+        using OCF1A = RegisterValue<TIFR1, 1, 1>;
+        using OCF1B = RegisterValue<TIFR1, 2, 1>;
+        using ICF1  = RegisterValue<TIFR1, 5, 1>;
+    };
+};
+
 
 
 }} // namespace periph::periph_detail
