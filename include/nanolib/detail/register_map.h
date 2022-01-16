@@ -47,7 +47,10 @@ struct gpio_register_set {
 
 
 template <TimerModule t_module>
-struct timer_register_set {
+struct timer_register_set;
+
+template <>
+struct timer_register_set<TimerModule::_0> {
     struct TCCR0A {
         constexpr static uint8_t address = 0x44;
 
@@ -105,6 +108,8 @@ struct timer_register_set {
     };
 
     struct GTCCR {
+        constexpr static uint8_t address = 0x43;
+
         using PSRSYNC = RegisterValue<GTCCR, 0, 1>;
         using PSRASY  = RegisterValue<GTCCR, 0, 1>;
         using TSM     = RegisterValue<GTCCR, 7, 1>;
@@ -184,8 +189,94 @@ struct timer_register_set<TimerModule::_1> {
         using OCF1B = RegisterValue<TIFR1, 2, 1>;
         using ICF1  = RegisterValue<TIFR1, 5, 1>;
     };
+
+    struct GTCCR {
+        constexpr static uint8_t address = 0x43;
+
+        using PSRSYNC = RegisterValue<GTCCR, 0, 1>;
+        using PSRASY  = RegisterValue<GTCCR, 0, 1>;
+        using TSM     = RegisterValue<GTCCR, 7, 1>;
+    };
 };
 
+template <>
+struct timer_register_set<TimerModule::_2> {
+    struct TCCR2A {
+        constexpr static uint8_t address = 0x44;
+
+        using WGM00  = RegisterValue<TCCR2A, 0, 1>;
+        using WGM01  = RegisterValue<TCCR2A, 1, 1>;
+        using COM0B0 = RegisterValue<TCCR2A, 4, 1>;
+        using COM0B1 = RegisterValue<TCCR2A, 5, 1>;
+        using COM0A0 = RegisterValue<TCCR2A, 6, 1>;
+        using COM0A1 = RegisterValue<TCCR2A, 7, 1>;
+    };
+
+    struct TCCR2B {
+        constexpr static uint8_t address = 0x45;
+
+        using CS00  = RegisterValue<TCCR2B, 0, 1>;
+        using CS01  = RegisterValue<TCCR2B, 1, 1>;
+        using CS02  = RegisterValue<TCCR2B, 2, 1>;
+        using WGM02 = RegisterValue<TCCR2B, 3, 1>;
+        using FOC0B = RegisterValue<TCCR2B, 6, 1>;
+        using FOC0A = RegisterValue<TCCR2B, 7, 1>;
+    };
+
+    struct TCNT2 {
+        constexpr static uint8_t address = 0x46;
+
+        using TCNT0_v = RegisterValue<TCNT2, 0, 8>;
+    };
+
+    struct OCR2A {
+        constexpr static uint8_t address = 0x47;
+
+        using OCR0A_v = RegisterValue<OCR2A, 0, 8>;
+    };
+
+    struct OCR2B {
+        constexpr static uint8_t address = 0x48;
+
+        using OCR0B_v = RegisterValue<OCR2B, 0, 8>;
+    };
+
+    struct TIMSK2 {
+        constexpr static uint8_t address = 0x6E;
+
+        using TOIE0  = RegisterValue<TIMSK2, 0, 1>;
+        using OCIE0A = RegisterValue<TIMSK2, 1, 1>;
+        using OCIE0B = RegisterValue<TIMSK2, 2, 1>;
+    };
+
+    struct TIFR2 {
+        constexpr static uint8_t address = 0x35;
+
+        using TOV0  = RegisterValue<TIFR2, 0, 1>;
+        using OCF0A = RegisterValue<TIFR2, 1, 1>;
+        using OCF0B = RegisterValue<TIFR2, 2, 1>;
+    };
+
+    struct ASSR {
+        constexpr static uint8_t address = 0xB6;
+
+        using TCR2BUB = RegisterValue<ASSR, 0, 1>;
+        using TCR2AUB = RegisterValue<ASSR, 1, 1>;
+        using OCR2BUB = RegisterValue<ASSR, 2, 1>;
+        using OCR2AUB = RegisterValue<ASSR, 3, 1>;
+        using TCN2UB  = RegisterValue<ASSR, 4, 1>;
+        using AS2     = RegisterValue<ASSR, 5, 1>;
+        using EXCLK   = RegisterValue<ASSR, 6, 1>;
+    };
+
+    struct GTCCR {
+        constexpr static uint8_t address = 0x43;
+
+        using PSRSYNC = RegisterValue<GTCCR, 0, 1>;
+        using PSRASY  = RegisterValue<GTCCR, 0, 1>;
+        using TSM     = RegisterValue<GTCCR, 7, 1>;
+    };
+};
 
 
 }} // namespace periph::periph_detail
