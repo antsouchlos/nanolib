@@ -14,10 +14,13 @@ class Timer;
 template <>
 class Timer<TimerModule::_0> {
 
-    using reg = periph_detail::timer_register_set<TimerModule::_0>;
+    using reg     = periph_detail::timer_register_set<TimerModule::_0>;
+    using pow_reg = periph_detail::power_register_set;
 
 public:
     Timer() {
+        // Atmega328P Datasheet 14.2, p.74
+        pow_reg::PRR::PRTIMn<TimerModule::_0>::write(0);
     }
 
 private:
