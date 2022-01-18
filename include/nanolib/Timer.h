@@ -18,7 +18,6 @@ class Timer<TimerModule::_0> {
 
 public:
     Timer() {
-
     }
 
 private:
