@@ -9,7 +9,16 @@
 namespace periph { namespace periph_detail {
 
 
-struct gpio_register_set {
+struct power_register_set {
+    struct SMCR {
+        constexpr static uint8_t address = 0x53;
+
+        using SE = RegisterValue<SMCR, 0, 1>;
+        using S0 = RegisterValue<SMCR, 1, 1>;
+        using S1 = RegisterValue<SMCR, 2, 1>;
+        using S2 = RegisterValue<SMCR, 3, 1>;
+    };
+
     struct MCUCR {
         constexpr static uint8_t address = 0x55;
 
@@ -20,6 +29,21 @@ struct gpio_register_set {
         using BODS  = RegisterValue<MCUCR, 6, 1>;
     };
 
+    struct PRR {
+        constexpr static uint8_t address = 0x64;
+
+        using PRADC   = RegisterValue<PRR, 0, 1>;
+        using PRUSART = RegisterValue<PRR, 1, 1>;
+        using PRSPI   = RegisterValue<PRR, 2, 1>;
+        using PRTIM1  = RegisterValue<PRR, 3, 1>;
+        using PRTIM0  = RegisterValue<PRR, 5, 1>;
+        using PRTIM2  = RegisterValue<PRR, 6, 1>;
+        using PRTWI   = RegisterValue<PRR, 7, 1>;
+    };
+};
+
+
+struct gpio_register_set {
     template <Port t_port>
     struct PORTx {
         constexpr static uint8_t address = 0x25 + 0x3 * get_num(t_port);
