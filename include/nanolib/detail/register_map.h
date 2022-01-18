@@ -32,13 +32,24 @@ struct power_register_set {
     struct PRR {
         constexpr static uint8_t address = 0x64;
 
+        constexpr static uint8_t get_timer_pos(TimerModule module) {
+            switch (module) {
+            case TimerModule::_0:
+                return 5;
+            case TimerModule::_1:
+                return 3;
+            case TimerModule::_2:
+                return 6;
+            }
+        };
+
         using PRADC   = RegisterValue<PRR, 0, 1>;
         using PRUSART = RegisterValue<PRR, 1, 1>;
         using PRSPI   = RegisterValue<PRR, 2, 1>;
-        using PRTIM1  = RegisterValue<PRR, 3, 1>;
-        using PRTIM0  = RegisterValue<PRR, 5, 1>;
-        using PRTIM2  = RegisterValue<PRR, 6, 1>;
         using PRTWI   = RegisterValue<PRR, 7, 1>;
+
+        template <TimerModule t_module>
+        using PRTIMn = RegisterValue<PRR, get_timer_pos(t_module), 1>;
     };
 };
 
