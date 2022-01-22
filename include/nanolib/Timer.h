@@ -21,6 +21,12 @@ public:
     Timer() {
         // Atmega328P Datasheet 14.2, p.74
         pow_reg::PRR::PRTIMn<TimerModule::_0>::write(0);
+
+        // Set timer to normal mode
+        reg::TCCRnB::WGM02::write(0);
+
+        // Start the timer by selecting the clock source
+        reg::TCCRnB::CS02::write(1);
     }
 
 private:
