@@ -73,6 +73,9 @@ public:
     }
 
     static void write(uint_t value) {
+        // TODO: Before reading from or writing to 16 bit registers, the
+        // interrupts must be disabled
+
         constexpr static uint_t mask = static_cast<uint_t>(
             ~(get_bitmask_ones<uint_t, t_length>::value << t_start_bit));
 
@@ -84,6 +87,9 @@ public:
     }
 
     static uint_t read() {
+        // TODO: Before reading from or writing to 16 bit registers, the
+        // interrupts must be disabled
+
         constexpr uint_t mask = static_cast<uint_t>(
             get_bitmask_ones<uint_t, t_length>::value << t_start_bit);
 
