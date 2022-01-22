@@ -102,7 +102,8 @@ public:
  */
 
 
-template <typename t_register, uint8_t t_start_bit, uint8_t t_length, typename enum_t>
+template <typename t_register, uint8_t t_start_bit, uint8_t t_length,
+          typename enum_t>
 class RegisterValueEnum : RegisterValue<t_register, t_start_bit, t_length> {
 
     using base = RegisterValue<t_register, t_start_bit, t_length>;
