@@ -56,7 +56,7 @@ struct required_int_t<
 
 template <typename t_register, uint8_t t_start_bit, uint8_t t_length>
 class RegisterValue {
-private:
+protected:
     using uint_t = typename required_int_t<t_length>::type;
 
     static volatile uint_t* get_addr_ptr() {
@@ -91,6 +91,29 @@ public:
         data        = (data & mask) >> t_start_bit;
 
         return data;
+    }
+};
+
+
+/*
+ *
+ * class RegisterValueEnum
+ *
+ */
+
+
+template <typename t_register, uint8_t t_start_bit, uint8_t t_length, typename enum_t>
+class RegisterValueEnum : RegisterValue<t_register, t_start_bit, t_length> {
+
+    using base = RegisterValue<t_register, t_start_bit, t_length>;
+
+public:
+    static void write(enum_t value) {
+        base::write(static_cast<typename base::uint_t>(value));
+    }
+
+    static enum_t read() {
+        return static_cast<enum_t>(base::read());
     }
 };
 
