@@ -22,11 +22,11 @@ public:
         // Atmega328P Datasheet 14.2, p.74
         pow_reg::PRR::PRTIMn<TimerModule::_0>::write(0);
 
-        // Set timer to normal mode
-        reg::TCCRnB::WGM02::write(0);
+        reg::TCCRnA::WGMn::write(reg::TimerMode::normal);
+        reg::TCCRnB::WGMn2::write(reg::OutputComp::off);
 
         // Start the timer by selecting the clock source
-        reg::TCCRnB::CS02::write(1);
+        reg::TCCRnB::CSn::write(reg::Prescaler::_256);
     }
 
 private:

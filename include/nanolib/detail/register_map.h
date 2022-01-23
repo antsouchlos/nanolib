@@ -86,11 +86,28 @@ struct timer_register_set;
 
 template <>
 struct timer_register_set<TimerModule::_0> {
+    enum class Prescaler {
+        none  = 0,
+        _1    = 1,
+        _8    = 2,
+        _64   = 3,
+        _256  = 4,
+        _1024 = 5
+    };
+
+    enum class TimerMode {
+        normal            = 0,
+        pwm_phase_correct = 1,
+        clear_on_compare  = 2,
+        fast_pwm          = 3,
+    };
+
+    enum class OutputComp { off = 0, on = 1 };
+
     struct TCCRnA {
         constexpr static uint8_t address = 0x44;
 
-        using WGM00  = RegisterValue<TCCRnA, 0, 1>;
-        using WGM01  = RegisterValue<TCCRnA, 1, 1>;
+        using WGMn   = RegisterValueEnum<TCCRnA, 0, 2, TimerMode>;
         using COM0B0 = RegisterValue<TCCRnA, 4, 1>;
         using COM0B1 = RegisterValue<TCCRnA, 5, 1>;
         using COM0A0 = RegisterValue<TCCRnA, 6, 1>;
@@ -100,10 +117,8 @@ struct timer_register_set<TimerModule::_0> {
     struct TCCRnB {
         constexpr static uint8_t address = 0x45;
 
-        using CS00  = RegisterValue<TCCRnB, 0, 1>;
-        using CS01  = RegisterValue<TCCRnB, 1, 1>;
-        using CS02  = RegisterValue<TCCRnB, 2, 1>;
-        using WGM02 = RegisterValue<TCCRnB, 3, 1>;
+        using CSn   = RegisterValueEnum<TCCRnB, 0, 3, Prescaler>;
+        using WGMn2 = RegisterValueEnum<TCCRnB, 3, 1, OutputComp>;
         using FOC0B = RegisterValue<TCCRnB, 6, 1>;
         using FOC0A = RegisterValue<TCCRnB, 7, 1>;
     };
