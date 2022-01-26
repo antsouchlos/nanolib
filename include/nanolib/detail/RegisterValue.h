@@ -119,6 +119,73 @@ public:
 };
 
 
+/*
+ *
+ * class RegisterValueEnumConcat
+ *
+ */
+
+
+template <typename T>
+struct is_reg_val : std::false_type {};
+
+template <typename t_register, uint8_t t_start_bit, uint8_t t_length>
+struct is_reg_val<RegisterValue<t_register, t_start_bit, t_length>>
+    : std::true_type {};
+
+
+template <typename enum_t, class, typename... register_vals_t>
+class RegisterValueEnumConcat_impl {
+    constexpr static uintmax_t get_val_length() {
+        return (register_vals_t::length + ...);
+    }
+
+    using uint_t = typename required_int_t<get_val_length()>::type;
+
+public:
+    static void write(enum_t value) {
+        uint_t int_value = static_cast<uint_t>(value);
+
+        (register_vals_t::write(
+             right_shift_delayed(int_value, register_vals_t::length) &
+             get_bitmask_ones<uint_t, register_vals_t::length>::value),
+         ...);
+    }
+
+    static enum_t read() {
+        uint_t int_result = 0;
+
+        // TODO
+        //        (add_shifted(int_result, register_vals_t::read(),
+        //                     register_vals_t::length),
+        //         ...);
+
+        return static_cast<enum_t>(int_result);
+    }
+
+private:
+    // A utility function to shift a variable from wihtin an expression,
+    // while using the old value of the variable
+    static uint_t right_shift_delayed(uint_t& value, uint_t shift) {
+        uint_t result = value;
+        value         = result >> shift;
+        return result;
+    }
+
+    static void add_shifted(uint_t& sum, uint_t value, uint_t shift) {
+        // TODO
+    }
+};
+
+
+template <typename enum_t, typename... register_vals_t>
+using RegisterValueEnumConcat = RegisterValueEnumConcat_impl<
+    enum_t,
+    typename std::enable_if<((is_reg_val<register_vals_t>::value) &&
+                             ...)>::type,
+    register_vals_t...>;
+
+
 }} // namespace periph::periph_detail
 
 
