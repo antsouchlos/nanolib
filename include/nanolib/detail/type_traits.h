@@ -38,6 +38,12 @@ template <typename T>
 struct is_same<T, T> : std::true_type {};
 
 
+template <typename T>
+struct underlying_type {
+    typedef __underlying_type(T) type;
+};
+
+
 } // namespace std
 
 
