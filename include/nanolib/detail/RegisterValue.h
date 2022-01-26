@@ -64,7 +64,7 @@ protected:
     constexpr static uint8_t start_bit = t_start_bit;
     constexpr static uint8_t length    = t_length;
 
-    using uint_t = typename required_int_t<t_length>::type;
+    using uint_t = typename required_int_t<t_length + t_start_bit>::type;
 
     static volatile uint_t* get_addr_ptr() {
         return reinterpret_cast<volatile uint_t*>(t_register::address);
