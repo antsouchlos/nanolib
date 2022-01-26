@@ -150,6 +150,14 @@ class RegisterValueEnumConcat_impl {
     using uint_t = typename required_int_t<get_val_length()>::type;
 
 public:
+    template <enum_t t_value>
+    static void write() {
+        static_assert(has_no_more_bits<static_cast<uint_t>(t_value), get_val_length()>::value,
+                      "More bits written to register value then it is long");
+
+        write(t_value);
+    }
+
     static void write(enum_t value) {
         uint_t int_value = static_cast<uint_t>(value);
 
