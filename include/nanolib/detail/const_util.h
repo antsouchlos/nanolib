@@ -41,7 +41,7 @@ struct has_no_more_bits {
 
 template <typename int_t>
 constexpr inline int_t max_int_value() {
-    int_t result;
+    int_t result = 0;
 
     if constexpr (static_cast<int_t>(-1) < 0) {
         result = static_cast<int_t>(
@@ -56,7 +56,7 @@ constexpr inline int_t max_int_value() {
 
 template <typename int_t>
 constexpr inline int_t min_int_value() {
-    int_t result;
+    int_t result = 0;
 
     if constexpr (static_cast<int_t>(-1) < 0) {
         result = -max_int_value<int_t>() - 1;
@@ -85,14 +85,11 @@ constexpr inline int_t min_int_value() {
 
 template <typename enum_t, enum_t t_value>
 struct is_valid_enum_val_impl {
-
-    using int_t = typename std::underlying_type<enum_t>::type;
-
 private:
-    constexpr static int_t find_substr(const char* s, const char* target,
-                                       uint8_t target_len, int_t start = 0) {
-        int_t i           = start;
-        int_t num_matched = 0;
+    constexpr static uint16_t find_substr(const char* s, const char* target,
+                                       uint8_t target_len, uint16_t start = 0) {
+        uint16_t i           = start;
+        uint16_t num_matched = 0;
 
         while (s[i] != ']') {
             if (s[i] == target[num_matched])
@@ -107,8 +104,8 @@ private:
         return 0;
     }
 
-    constexpr static bool contains(const char* s, char c, int_t start = 0) {
-        int_t i = start;
+    constexpr static bool contains(const char* s, char c, uint16_t start = 0) {
+        uint16_t i = start;
 
         while (s[i] != ']') {
             if (s[i] == c) return true;
@@ -124,11 +121,11 @@ public:
 #if defined(GCC_PRETTY_FUNC)
         constexpr const char* s = __PRETTY_FUNCTION__;
         return !contains(s, '(',
-                         find_substr(s, "t_value", 7, find_substr(s, "(")));
+                         find_substr(s, "t_value", 7, find_substr(s, "(", 1)));
 #elif defined(CLANG_PRETTY_FUNC)
         constexpr const char* s = __PRETTY_FUNCTION__;
         return contains(s, '(',
-                        find_substr(s, "t_value", 7, find_substr(s, "(")));
+                        find_substr(s, "t_value", 7, find_substr(s, "(", 1)));
 #else
 #error "Cannot build with compiler that does not support __PRETTY_FUNC__"
         return false;
@@ -174,7 +171,7 @@ template <typename enum_t>
 constexpr typename std::underlying_type<enum_t>::type max_enum_val() {
     using int_t = typename std::underlying_type<enum_t>::type;
 
-    static_assert(sizeof(int_t) <= 1, "Cannot use type larger than int8_t");
+    static_assert(sizeof(int_t) <= 1, "Cannot use type larger than uint8_t");
 
     // Reduce compile times in case of error: Make sure this code is not
     // compiled (If sizeof(int_t) > 1 this definitely runs into the template
