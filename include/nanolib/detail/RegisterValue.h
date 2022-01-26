@@ -180,8 +180,8 @@ private:
         int_value   = int_value >> register_val_t::length;
 
         constexpr uint_t mask =
-                periph_detail::get_bitmask_ones<uint_t,
-                        register_val_t::length>::value;
+            periph_detail::get_bitmask_ones<uint_t,
+                                            register_val_t::length>::value;
 
         register_val_t::write(temp & mask);
     }
