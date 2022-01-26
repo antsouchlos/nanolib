@@ -40,12 +40,12 @@ struct register_set {
     };
 
     enum class ConcatValue {
-        A = 0b1111'1111'1111'1111,
-        B = 0b1000'1101'1100'0011,
-        C = 0b0000'0001'0000'1110,
-        D = 0b0000'0001'0010'1111,
-        E = 0b0000'0111'1111'1111,
-        F = 0b0000'0000'0011'1111
+        A = 0b1111'1111'1111'1111u,
+        B = 0b1000'1101'1100'0011u,
+        C = 0b0000'0001'0000'1110u,
+        D = 0b0000'0001'0010'1111u,
+        E = 0b0000'0111'1111'1111u,
+        F = 0b0000'0000'0011'1111u
     };
 
     // clang-format off
@@ -161,17 +161,18 @@ TEST(RegisterValueEnumConcat, write_no_overflow) {
 }
 
 TEST(RegisterValueEnumConcat, read_basic) {
-    //    *(reinterpret_cast<uint16_t*>(REG1_buffer)) = 0b001100'11110000u;
-    //    EXPECT_EQ(REG1_buffer[0], register_set::REG1::VAL1::read());
-    //
-    //    *(reinterpret_cast<uint16_t*>(REG2_buffer)) = 0b000001'00001000u;
-    //    EXPECT_EQ(REG2_buffer[0] & 0b00001111u,
-    //    register_set::REG2::VAL1::read()); EXPECT_EQ(REG2_buffer[0] &
-    //    0b11110000u, register_set::REG2::VAL2::read());
-    //
-    //    *(reinterpret_cast<uint16_t*>(REG3_buffer)) = 0b000000'10001111u;
-    //    EXPECT_EQ(*(reinterpret_cast<uint16_t*>(REG3_buffer)),
-    //              register_set::REG3::VAL1::read());
+    *(reinterpret_cast<uint16_t*>(REG1_buffer)) = 0b00000000'11111111u;
+    *(reinterpret_cast<uint16_t*>(REG2_buffer)) = 0b00000000'01110000u;
+    *(reinterpret_cast<uint16_t*>(REG3_buffer)) = 0b11111000'00000000u;
+    EXPECT_EQ(register_set::CONCAT_VAL1::read(), register_set::ConcatValue::A);
+
+    *(reinterpret_cast<uint16_t*>(REG1_buffer)) = 0b11111111'11000011u;
+    *(reinterpret_cast<uint16_t*>(REG2_buffer)) = 0b11111111'11011111u;
+    *(reinterpret_cast<uint16_t*>(REG3_buffer)) = 0b10001111'11111111u;
+    EXPECT_EQ(register_set::CONCAT_VAL1::read(), register_set::ConcatValue::B);
+
+    *(reinterpret_cast<uint16_t*>(REG3_buffer)) = 0b001'00001110u;
+    EXPECT_EQ(register_set::CONCAT_VAL2::read(), register_set::ConcatValue::C);
 }
 
 
