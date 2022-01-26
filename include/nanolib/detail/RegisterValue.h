@@ -167,8 +167,9 @@ public:
 
     static enum_t read() {
         uint_t int_result = 0;
+        uint_t total_shift = 0;
 
-        // TODO
+        (read_val<register_vals_t>(int_result, total_shift), ...);
 
         return static_cast<enum_t>(int_result);
     }
@@ -186,9 +187,13 @@ private:
         register_val_t::write(temp & mask);
     }
 
-    //    static void add_shifted(uint_t& sum, uint_t value, uint_t shift) {
-    //        // TODO
-    //    }
+    template <typename register_val_t>
+    static void read_val(uint_t& int_value, uint_t& total_shift) {
+        uint_t temp = register_val_t::read();
+        int_value = int_value + ( temp << total_shift);
+
+        total_shift += register_val_t::length;
+    }
 };
 
 
