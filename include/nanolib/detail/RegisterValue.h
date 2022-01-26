@@ -176,11 +176,13 @@ public:
 private:
     template <typename register_val_t>
     static void write_val(uint_t& int_value) {
-        constexpr uint_t mask =
-            periph_detail::get_bitmask_ones<uint_t,
-                                            register_val_t::length>::value;
         uint_t temp = int_value;
         int_value   = int_value >> register_val_t::length;
+
+        constexpr uint_t mask =
+                periph_detail::get_bitmask_ones<uint_t,
+                        register_val_t::length>::value;
+
         register_val_t::write(temp & mask);
     }
 
