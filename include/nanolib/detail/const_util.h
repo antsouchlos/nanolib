@@ -87,7 +87,8 @@ template <typename enum_t, enum_t t_value>
 struct is_valid_enum_val_impl {
 private:
     constexpr static uint16_t find_substr(const char* s, const char* target,
-                                       uint8_t target_len, uint16_t start = 0) {
+                                          uint8_t  target_len,
+                                          uint16_t start = 0) {
         uint16_t i           = start;
         uint16_t num_matched = 0;
 
@@ -181,6 +182,52 @@ constexpr typename std::underlying_type<enum_t>::type max_enum_val() {
         constexpr int_t min_val = min_int_value<int_t>();
 
         return max_enum_val_impl<enum_t, max_val, min_val, false>::value;
+    }
+}
+
+
+template <typename enum_t, typename std::underlying_type<enum_t>::type t_index,
+          typename std::underlying_type<enum_t>::type t_max_index, bool t_valid>
+struct min_enum_val_impl;
+
+template <typename enum_t, typename std::underlying_type<enum_t>::type t_index,
+          typename std::underlying_type<enum_t>::type t_max_index>
+struct min_enum_val_impl<enum_t, t_index, t_max_index, false> {
+    constexpr static bool valid =
+        is_valid_enum_val<enum_t, static_cast<enum_t>(t_index)>();
+    constexpr static typename std::underlying_type<enum_t>::type value =
+        min_enum_val_impl<enum_t, t_index + 1, t_max_index, valid>::value;
+};
+
+template <typename enum_t,
+          typename std::underlying_type<enum_t>::type t_max_index>
+struct min_enum_val_impl<enum_t, t_max_index, t_max_index, false> {
+    constexpr static typename std::underlying_type<enum_t>::type value =
+        t_max_index;
+};
+
+template <typename enum_t, typename std::underlying_type<enum_t>::type t_index,
+          typename std::underlying_type<enum_t>::type t_max_index>
+struct min_enum_val_impl<enum_t, t_index, t_max_index, true> {
+    constexpr static typename std::underlying_type<enum_t>::type value =
+        t_index - 1;
+};
+
+
+template <typename enum_t>
+constexpr typename std::underlying_type<enum_t>::type min_enum_val() {
+    using int_t = typename std::underlying_type<enum_t>::type;
+
+    static_assert(sizeof(int_t) <= 1, "Cannot use type larger than uint8_t");
+
+    // Reduce compile times in case of error: Make sure this code is not
+    // compiled (If sizeof(int_t) > 1 this definitely runs into the template
+    // recursion limit)
+    if constexpr (sizeof(int_t) <= 1) {
+        constexpr int_t max_val = max_int_value<int_t>();
+        constexpr int_t min_val = min_int_value<int_t>();
+
+        return min_enum_val_impl<enum_t, min_val, max_val, false>::value;
     }
 }
 

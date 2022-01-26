@@ -108,7 +108,7 @@ TEST(ConstUtil, max_enum_val) {
     enum class Enum2 : int8_t  { A = int8_t_min,  B = 0           };
     enum class Enum3 : int8_t  { A = 100,         B = 35          };
     enum class Enum4 : uint8_t { A = uint8_t_min, B = uint8_t_max };
-    enum class Enum5 : uint8_t { A = uint8_t_min, B = 1          };
+    enum class Enum5 : uint8_t { A = uint8_t_min, B = 1           };
     enum class Enum6 : uint8_t { A = 100,         B = 35          };
 
     // clang-format on
@@ -121,8 +121,30 @@ TEST(ConstUtil, max_enum_val) {
     EXPECT_EQ(max_enum_val<Enum6>(), 100);
 }
 
-// TODO
-// TEST(ConstUtil, min_enum_val) {
-//}
+TEST(ConstUtil, min_enum_val) {
+    constexpr int8_t  int8_t_min  = std::numeric_limits<int8_t>::min();
+    constexpr int8_t  int8_t_max  = std::numeric_limits<int8_t>::max();
+    constexpr uint8_t uint8_t_min = std::numeric_limits<uint8_t>::min();
+    constexpr uint8_t uint8_t_max = std::numeric_limits<uint8_t>::max();
+
+    // clang-format off
+
+    enum class Enum  : int8_t  { A = int8_t_min,  B = int8_t_max  };
+    enum class Enum2 : int8_t  { A = 0,           B = int8_t_max  };
+    enum class Enum3 : int8_t  { A = 100,         B = 35          };
+    enum class Enum4 : uint8_t { A = uint8_t_min, B = uint8_t_max };
+    enum class Enum5 : uint8_t { A = 0,           B = uint8_t_max };
+    enum class Enum6 : uint8_t { A = 100,         B = 35          };
+
+    // clang-format on
+
+    EXPECT_EQ(min_enum_val<Enum>(), int8_t_min);
+    EXPECT_EQ(min_enum_val<Enum2>(), 0);
+    EXPECT_EQ(min_enum_val<Enum3>(), 35);
+    EXPECT_EQ(min_enum_val<Enum4>(), uint8_t_min);
+    EXPECT_EQ(min_enum_val<Enum5>(), 0);
+    EXPECT_EQ(min_enum_val<Enum6>(), 35);
+}
+
 
 } // namespace
