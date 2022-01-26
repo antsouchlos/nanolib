@@ -56,8 +56,15 @@ struct required_int_t<
 
 template <typename t_register, uint8_t t_start_bit, uint8_t t_length>
 class RegisterValue {
+
+    template <typename enum_t, class, typename... register_vals_t>
+    friend class RegisterValueEnumConcat_impl;
+
 protected:
-    using uint_t = typename required_int_t<t_length>::type;
+    constexpr static uint8_t start_bit = t_start_bit;
+    constexpr static uint8_t length    = t_length;
+
+    using uint_t = typename required_int_t<t_length + t_start_bit>::type;
 
     static volatile uint_t* get_addr_ptr() {
         return reinterpret_cast<volatile uint_t*>(t_register::address);
@@ -123,6 +130,85 @@ public:
         return static_cast<enum_t>(base::read());
     }
 };
+
+
+/*
+ *
+ * class RegisterValueEnumConcat
+ *
+ */
+
+
+template <typename T>
+struct is_reg_val : std::false_type {};
+
+template <typename t_register, uint8_t t_start_bit, uint8_t t_length>
+struct is_reg_val<RegisterValue<t_register, t_start_bit, t_length>>
+    : std::true_type {};
+
+
+template <typename enum_t, class, typename... register_vals_t>
+class RegisterValueEnumConcat_impl {
+    constexpr static uintmax_t get_val_length() {
+        return (register_vals_t::length + ...);
+    }
+
+    using uint_t = typename required_int_t<get_val_length()>::type;
+
+public:
+    template <enum_t t_value>
+    static void write() {
+        static_assert(has_no_more_bits<static_cast<uint_t>(t_value),
+                                       get_val_length()>::value,
+                      "More bits written to register value then it is long");
+
+        write(t_value);
+    }
+
+    static void write(enum_t value) {
+        uint_t int_value = static_cast<uint_t>(value);
+
+        (write_val<register_vals_t>(int_value), ...);
+    }
+
+    static enum_t read() {
+        uint_t int_result  = 0;
+        uint_t total_shift = 0;
+
+        (read_val<register_vals_t>(int_result, total_shift), ...);
+
+        return static_cast<enum_t>(int_result);
+    }
+
+private:
+    template <typename register_val_t>
+    static void write_val(uint_t& int_value) {
+        uint_t temp = int_value;
+        int_value   = int_value >> register_val_t::length;
+
+        constexpr uint_t mask =
+            periph_detail::get_bitmask_ones<uint_t,
+                                            register_val_t::length>::value;
+
+        register_val_t::write(temp & mask);
+    }
+
+    template <typename register_val_t>
+    static void read_val(uint_t& int_value, uint_t& total_shift) {
+        uint_t temp = register_val_t::read();
+        int_value   = int_value + (temp << total_shift);
+
+        total_shift += register_val_t::length;
+    }
+};
+
+
+template <typename enum_t, typename... register_vals_t>
+using RegisterValueEnumConcat = RegisterValueEnumConcat_impl<
+    enum_t,
+    typename std::enable_if<((is_reg_val<register_vals_t>::value) &&
+                             ...)>::type,
+    register_vals_t...>;
 
 
 }} // namespace periph::periph_detail
