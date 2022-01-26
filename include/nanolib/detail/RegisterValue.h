@@ -152,7 +152,8 @@ class RegisterValueEnumConcat_impl {
 public:
     template <enum_t t_value>
     static void write() {
-        static_assert(has_no_more_bits<static_cast<uint_t>(t_value), get_val_length()>::value,
+        static_assert(has_no_more_bits<static_cast<uint_t>(t_value),
+                                       get_val_length()>::value,
                       "More bits written to register value then it is long");
 
         write(t_value);
@@ -161,35 +162,31 @@ public:
     static void write(enum_t value) {
         uint_t int_value = static_cast<uint_t>(value);
 
-        (register_vals_t::write(
-             right_shift_delayed(int_value, register_vals_t::length) &
-             get_bitmask_ones<uint_t, register_vals_t::length>::value),
-         ...);
+        (write_val<register_vals_t>(int_value), ...);
     }
 
     static enum_t read() {
         uint_t int_result = 0;
 
         // TODO
-        //        (add_shifted(int_result, register_vals_t::read(),
-        //                     register_vals_t::length),
-        //         ...);
 
         return static_cast<enum_t>(int_result);
     }
 
 private:
-    // A utility function to shift a variable from wihtin an expression,
-    // while using the old value of the variable
-    static uint_t right_shift_delayed(uint_t& value, uint_t shift) {
-        uint_t result = value;
-        value         = result >> shift;
-        return result;
+    template <typename register_val_t>
+    static void write_val(uint_t& int_value) {
+        constexpr uint_t mask =
+            periph_detail::get_bitmask_ones<uint_t,
+                                            register_val_t::length>::value;
+        uint_t temp = int_value;
+        int_value   = int_value >> register_val_t::length;
+        register_val_t::write(temp & mask);
     }
 
-    static void add_shifted(uint_t& sum, uint_t value, uint_t shift) {
-        // TODO
-    }
+    //    static void add_shifted(uint_t& sum, uint_t value, uint_t shift) {
+    //        // TODO
+    //    }
 };
 
 
