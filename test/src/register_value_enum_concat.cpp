@@ -108,7 +108,8 @@ TEST(RegisterValueEnumConcat, write_basic) {
 
     register_set::CONCAT_VAL2::write<register_set::ConcatValue::C>();
     EXPECT_EQ(REG3_buffer[0], (C_v & get_bitmask_ones<uint8_t, 8>::value));
-    EXPECT_EQ(REG3_buffer[1], ((C_v >> 8) & get_bitmask_ones<uint8_t, 1>::value));
+    EXPECT_EQ(REG3_buffer[1],
+              ((C_v >> 8) & get_bitmask_ones<uint8_t, 1>::value));
 
 
     for (auto& elem : REG3_buffer)
@@ -119,7 +120,8 @@ TEST(RegisterValueEnumConcat, write_basic) {
 
     register_set::CONCAT_VAL3::write<register_set::ConcatValue::D>();
     EXPECT_EQ(REG3_buffer[0], (D_v & get_bitmask_ones<uint8_t, 2>::value));
-    EXPECT_EQ((REG1_buffer[1]), ((D_v >> 2) & get_bitmask_ones<uint8_t, 4>::value));
+    EXPECT_EQ((REG1_buffer[1]),
+              ((D_v >> 2) & get_bitmask_ones<uint8_t, 4>::value));
 }
 
 TEST(RegisterValueEnumConcat, write_no_overflow) {
