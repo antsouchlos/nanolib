@@ -42,4 +42,5 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 package_add_test(RegisterValue src/register_value.cpp)
+package_add_test(RegisterValueEnumConcat src/register_value_enum_concat.cpp)
 package_add_test(ConstUtil src/const_util.cpp)

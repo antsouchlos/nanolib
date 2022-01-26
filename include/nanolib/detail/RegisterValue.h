@@ -56,7 +56,14 @@ struct required_int_t<
 
 template <typename t_register, uint8_t t_start_bit, uint8_t t_length>
 class RegisterValue {
+
+    template <typename enum_t, class, typename... register_vals_t>
+    friend class RegisterValueEnumConcat_impl;
+
 protected:
+    constexpr static uint8_t start_bit = t_start_bit;
+    constexpr static uint8_t length    = t_length;
+
     using uint_t = typename required_int_t<t_length>::type;
 
     static volatile uint_t* get_addr_ptr() {
