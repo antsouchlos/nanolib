@@ -86,28 +86,14 @@ struct timer_register_set;
 
 template <>
 struct timer_register_set<TimerModule::_0> {
-    enum class Prescaler {
-        none  = 0,
-        _1    = 1,
-        _8    = 2,
-        _64   = 3,
-        _256  = 4,
-        _1024 = 5
-    };
 
-    enum class TimerMode {
-        normal            = 0,
-        pwm_phase_correct = 1,
-        clear_on_compare  = 2,
-        fast_pwm          = 3,
-    };
-
-    enum class OutputComp { off = 0, on = 1 };
+    // Register definitions
 
     struct TCCRnA {
         constexpr static uint8_t address = 0x44;
 
-        using WGMn   = RegisterValueEnum<TCCRnA, 0, 2, TimerMode>;
+        using WGM00  = RegisterValue<TCCRnA, 0, 1>;
+        using WGM01  = RegisterValue<TCCRnA, 1, 1>;
         using COM0B0 = RegisterValue<TCCRnA, 4, 1>;
         using COM0B1 = RegisterValue<TCCRnA, 5, 1>;
         using COM0A0 = RegisterValue<TCCRnA, 6, 1>;
@@ -117,8 +103,10 @@ struct timer_register_set<TimerModule::_0> {
     struct TCCRnB {
         constexpr static uint8_t address = 0x45;
 
-        using CSn   = RegisterValueEnum<TCCRnB, 0, 3, Prescaler>;
-        using WGMn2 = RegisterValueEnum<TCCRnB, 3, 1, OutputComp>;
+        using CS01  = RegisterValue<TCCRnB, 0, 1>;
+        using CS02  = RegisterValue<TCCRnB, 1, 1>;
+        using CS03  = RegisterValue<TCCRnB, 2, 1>;
+        using WGM02 = RegisterValue<TCCRnB, 3, 1>;
         using FOC0B = RegisterValue<TCCRnB, 6, 1>;
         using FOC0A = RegisterValue<TCCRnB, 7, 1>;
     };
@@ -164,6 +152,33 @@ struct timer_register_set<TimerModule::_0> {
         using PSRASY  = RegisterValue<GTCCR, 0, 1>;
         using TSM     = RegisterValue<GTCCR, 7, 1>;
     };
+
+    // Definitions of concatenated and enum-accessible register values
+
+    enum class Prescaler {
+        none                  = 0b000,
+        _1                    = 0b001,
+        _8                    = 0b010,
+        _64                   = 0b011,
+        _256                  = 0b100,
+        _1024                 = 0b101,
+        external_falling_edge = 0b110,
+        external_rising_edge  = 0b111
+    };
+
+    enum class TimerMode {
+        normal                     = 0b0000,
+        pwm_phase_correct          = 0b0001,
+        clear_on_compare           = 0b0010,
+        fast_pwm                   = 0b0011,
+        pwm_phase_correct_out_comp = 0b0001,
+        fast_pwm_out_comp          = 0b0011
+    };
+
+    using WGM0n = RegisterValueEnumConcat<TimerMode, TCCRnA::WGM00,
+                                          TCCRnA::WGM01, TCCRnB::WGM02>;
+    using CS0n  = RegisterValueEnumConcat<Prescaler, TCCRnB::CS01, TCCRnB::CS02,
+                                         TCCRnB::CS03>;
 };
 
 template <>
