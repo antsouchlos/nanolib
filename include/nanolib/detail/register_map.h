@@ -103,9 +103,9 @@ struct timer_register_set<TimerModule::_0> {
     struct TCCRnB {
         constexpr static uint8_t address = 0x45;
 
-        using CS01  = RegisterValue<TCCRnB, 0, 1>;
-        using CS02  = RegisterValue<TCCRnB, 1, 1>;
-        using CS03  = RegisterValue<TCCRnB, 2, 1>;
+        using CS00  = RegisterValue<TCCRnB, 0, 1>;
+        using CS01  = RegisterValue<TCCRnB, 1, 1>;
+        using CS02  = RegisterValue<TCCRnB, 2, 1>;
         using WGM02 = RegisterValue<TCCRnB, 3, 1>;
         using FOC0B = RegisterValue<TCCRnB, 6, 1>;
         using FOC0A = RegisterValue<TCCRnB, 7, 1>;
@@ -167,22 +167,25 @@ struct timer_register_set<TimerModule::_0> {
     };
 
     enum class TimerMode {
-        normal                     = 0b0000,
-        pwm_phase_correct          = 0b0001,
-        clear_on_compare           = 0b0010,
-        fast_pwm                   = 0b0011,
-        pwm_phase_correct_out_comp = 0b0001,
-        fast_pwm_out_comp          = 0b0011
+        normal                     = 0b000,
+        pwm_phase_correct          = 0b001,
+        clear_on_compare           = 0b010,
+        fast_pwm                   = 0b011,
+        pwm_phase_correct_out_comp = 0b101,
+        fast_pwm_out_comp          = 0b111
     };
 
     using WGM0n = RegisterValueEnumConcat<TimerMode, TCCRnA::WGM00,
                                           TCCRnA::WGM01, TCCRnB::WGM02>;
-    using CS0n  = RegisterValueEnumConcat<Prescaler, TCCRnB::CS01, TCCRnB::CS02,
-                                         TCCRnB::CS03>;
+    using CS0n  = RegisterValueEnumConcat<Prescaler, TCCRnB::CS00, TCCRnB::CS01,
+                                         TCCRnB::CS02>;
 };
 
 template <>
 struct timer_register_set<TimerModule::_1> {
+
+    // Register definitions
+
     struct TCCRnA {
         constexpr static uint8_t address = 0x80;
 
@@ -262,64 +265,104 @@ struct timer_register_set<TimerModule::_1> {
         using PSRASY  = RegisterValue<GTCCR, 0, 1>;
         using TSM     = RegisterValue<GTCCR, 7, 1>;
     };
+
+    // Definitions of concatenated and enum-accessible register values
+
+    enum class Prescaler {
+        none                  = 0b000,
+        _1                    = 0b001,
+        _8                    = 0b010,
+        _64                   = 0b011,
+        _256                  = 0b100,
+        _1024                 = 0b101,
+        external_falling_edge = 0b110,
+        external_rising_edge  = 0b111
+    };
+
+    enum class TimerMode {
+        normal                                   = 0b0000,
+        pwm_phase_correct_8bit                   = 0b0001,
+        pwm_phase_correct_9bit                   = 0b0010,
+        pwm_phase_correct_10bit                  = 0b0011,
+        ctc_out_comp                             = 0b0100,
+        fast_pwm_8bit                            = 0b0101,
+        fast_pwm_9bit                            = 0b0110,
+        fast_pwm_10bit                           = 0b0111,
+        pwm_phase_and_frequency_correct          = 0b1000,
+        pwm_phase_and_frequency_correct_out_comp = 0b1001,
+        pwm_phase_correct                        = 0b1010,
+        pwm_phase_correct_out_comp               = 0b1011,
+        ctc                                      = 0b1100,
+        fast_pwm                                 = 0b1101,
+        fast_pwm_out_comp                        = 0b1111
+    };
+
+    using WGM1n =
+        RegisterValueEnumConcat<TimerMode, TCCRnA::WGM10, TCCRnA::WGM11,
+                                TCCRnB::WGM12, TCCRnB::WGM13>;
+    using CS1n = RegisterValueEnumConcat<Prescaler, TCCRnB::CS10, TCCRnB::CS11,
+                                         TCCRnB::CS12>;
 };
 
 template <>
 struct timer_register_set<TimerModule::_2> {
+
+    // Register definitions
+
     struct TCCRnA {
         constexpr static uint8_t address = 0x44;
 
-        using WGM00  = RegisterValue<TCCRnA, 0, 1>;
-        using WGM01  = RegisterValue<TCCRnA, 1, 1>;
-        using COM0B0 = RegisterValue<TCCRnA, 4, 1>;
-        using COM0B1 = RegisterValue<TCCRnA, 5, 1>;
-        using COM0A0 = RegisterValue<TCCRnA, 6, 1>;
-        using COM0A1 = RegisterValue<TCCRnA, 7, 1>;
+        using WGM20  = RegisterValue<TCCRnA, 0, 1>;
+        using WGM21  = RegisterValue<TCCRnA, 1, 1>;
+        using COM2B0 = RegisterValue<TCCRnA, 4, 1>;
+        using COM2B1 = RegisterValue<TCCRnA, 5, 1>;
+        using COM2A0 = RegisterValue<TCCRnA, 6, 1>;
+        using COM2A1 = RegisterValue<TCCRnA, 7, 1>;
     };
 
     struct TCCRnB {
         constexpr static uint8_t address = 0x45;
 
-        using CS00  = RegisterValue<TCCRnB, 0, 1>;
-        using CS01  = RegisterValue<TCCRnB, 1, 1>;
-        using CS02  = RegisterValue<TCCRnB, 2, 1>;
-        using WGM02 = RegisterValue<TCCRnB, 3, 1>;
-        using FOC0B = RegisterValue<TCCRnB, 6, 1>;
-        using FOC0A = RegisterValue<TCCRnB, 7, 1>;
+        using CS20  = RegisterValue<TCCRnB, 0, 1>;
+        using CS21  = RegisterValue<TCCRnB, 1, 1>;
+        using CS22  = RegisterValue<TCCRnB, 2, 1>;
+        using WGM22 = RegisterValue<TCCRnB, 3, 1>;
+        using FOC2B = RegisterValue<TCCRnB, 6, 1>;
+        using FOC2A = RegisterValue<TCCRnB, 7, 1>;
     };
 
     struct TCNTn {
         constexpr static uint8_t address = 0x46;
 
-        using TCNT0_v = RegisterValue<TCNTn, 0, 8>;
+        using TCNT2_v = RegisterValue<TCNTn, 0, 8>;
     };
 
     struct OCRnA {
         constexpr static uint8_t address = 0x47;
 
-        using OCR0A_v = RegisterValue<OCRnA, 0, 8>;
+        using OCR2A_v = RegisterValue<OCRnA, 0, 8>;
     };
 
     struct OCRnB {
         constexpr static uint8_t address = 0x48;
 
-        using OCR0B_v = RegisterValue<OCRnB, 0, 8>;
+        using OCR2B_v = RegisterValue<OCRnB, 0, 8>;
     };
 
     struct TIMSKn {
         constexpr static uint8_t address = 0x6E;
 
-        using TOIE0  = RegisterValue<TIMSKn, 0, 1>;
-        using OCIE0A = RegisterValue<TIMSKn, 1, 1>;
-        using OCIE0B = RegisterValue<TIMSKn, 2, 1>;
+        using TOIE2  = RegisterValue<TIMSKn, 0, 1>;
+        using OCIE2A = RegisterValue<TIMSKn, 1, 1>;
+        using OCIE2B = RegisterValue<TIMSKn, 2, 1>;
     };
 
     struct TIFRn {
         constexpr static uint8_t address = 0x35;
 
-        using TOV0  = RegisterValue<TIFRn, 0, 1>;
-        using OCF0A = RegisterValue<TIFRn, 1, 1>;
-        using OCF0B = RegisterValue<TIFRn, 2, 1>;
+        using TOV2  = RegisterValue<TIFRn, 0, 1>;
+        using OCF2A = RegisterValue<TIFRn, 1, 1>;
+        using OCF2B = RegisterValue<TIFRn, 2, 1>;
     };
 
     struct ASSR {
@@ -341,6 +384,33 @@ struct timer_register_set<TimerModule::_2> {
         using PSRASY  = RegisterValue<GTCCR, 0, 1>;
         using TSM     = RegisterValue<GTCCR, 7, 1>;
     };
+
+    // Definitions of concatenated and enum-accessible register values
+
+    enum class Prescaler {
+        none  = 0b000,
+        _1    = 0b001,
+        _8    = 0b010,
+        _32   = 0b011,
+        _64   = 0b100,
+        _128  = 0b101,
+        _256  = 0b110,
+        _1024 = 0b111
+    };
+
+    enum class TimerMode {
+        normal                     = 0b000,
+        pwm_phase_correct          = 0b001,
+        clear_on_compare           = 0b010,
+        fast_pwm                   = 0b011,
+        pwm_phase_correct_out_comp = 0b101,
+        fast_pwm_out_comp          = 0b111
+    };
+
+    using WGM2n = RegisterValueEnumConcat<TimerMode, TCCRnA::WGM20,
+                                          TCCRnA::WGM21, TCCRnB::WGM22>;
+    using CS2n  = RegisterValueEnumConcat<Prescaler, TCCRnB::CS20, TCCRnB::CS21,
+                                         TCCRnB::CS22>;
 };
 
 
