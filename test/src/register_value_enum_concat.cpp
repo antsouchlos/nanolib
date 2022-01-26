@@ -43,7 +43,9 @@ struct register_set {
         A = 0b1111'1111'1111'1111,
         B = 0b1000'1101'1100'0011,
         C = 0b0000'0001'0000'1110,
-        D = 0b0000'0001'0010'1111
+        D = 0b0000'0001'0010'1111,
+        E = 0b0000'0111'1111'1111,
+        F = 0b0000'0000'0011'1111
     };
 
     // clang-format off
@@ -126,21 +128,36 @@ TEST(RegisterValueEnumConcat, write_basic) {
 
 TEST(RegisterValueEnumConcat, write_no_overflow) {
     for (auto& elem : REG1_buffer)
-        elem = 0b11111111u;
+        elem = 0b00000000u;
     for (auto& elem : REG2_buffer)
-        elem = 0b11111111u;
+        elem = 0b00000000u;
     for (auto& elem : REG3_buffer)
-        elem = 0b11111111u;
+        elem = 0b00000000u;
 
-    //    register_set::REG1::VAL1::write<val1>();
-    //    EXPECT_EQ(REG1_buffer[1], 0b11111111u);
-    //
-    //    register_set::REG2::VAL1::write<val2>();
-    //    register_set::REG2::VAL2::write<val3>();
-    //    EXPECT_EQ(REG2_buffer[1], 0b11111111u);
-    //
-    //    register_set::REG3::VAL1 ::write<val3>();
-    //    EXPECT_EQ(REG3_buffer[1], 0);
+    register_set::CONCAT_VAL1::write<register_set::ConcatValue::A>();
+    EXPECT_EQ(REG1_buffer[1], 0);
+    EXPECT_EQ((REG2_buffer[0] & get_bitmask_ones<uint8_t, 4>::value), 0);
+    EXPECT_EQ((REG2_buffer[0] >> 7), 0);
+    EXPECT_EQ(REG3_buffer[0], 0);
+    EXPECT_EQ((REG3_buffer[1] & get_bitmask_ones<uint8_t, 3>::value), 0);
+
+
+    for (auto& elem : REG3_buffer)
+        elem = 0b00000000u;
+
+    register_set::CONCAT_VAL2::write<register_set::ConcatValue::E>();
+    EXPECT_EQ(REG3_buffer[1] >> 3, 0);
+
+
+    for (auto& elem : REG1_buffer)
+        elem = 0b00000000u;
+    for (auto& elem : REG3_buffer)
+        elem = 0b00000000u;
+
+    register_set::CONCAT_VAL3::write<register_set::ConcatValue::F>();
+    EXPECT_EQ(REG3_buffer[0] >> 2, 0);
+    EXPECT_EQ(REG1_buffer[0], 0);
+    EXPECT_EQ(REG1_buffer[1] >> 4, 0);
 }
 
 TEST(RegisterValueEnumConcat, read_basic) {
