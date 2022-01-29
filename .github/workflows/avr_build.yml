@@ -23,8 +23,8 @@ jobs:
         run: wget -P ~ https://blog.zakkemble.net/download/avr-gcc-11.1.0-x64-linux.tar.bz2 && tar -xf ~/avr-gcc-11.1.0-x64-linux.tar.bz2 -C ~ && export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH
 
       - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/examples/build -S ${{github.workspace}}/examples -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH && cmake -B ${{github.workspace}}/examples/build -S ${{github.workspace}}/examples -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        run: cmake --build ${{github.workspace}}/examples/build --config ${{env.BUILD_TYPE}}
+        run: export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH && cmake --build ${{github.workspace}}/examples/build --config ${{env.BUILD_TYPE}}
 
