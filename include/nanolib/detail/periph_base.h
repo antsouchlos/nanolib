@@ -23,7 +23,7 @@ constexpr inline uint16_t get_num(enum_t val) {
 }
 
 
-}; // namespace periph
+} // namespace periph
 
 
 #endif
