@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install required packages
-        run: sudo apt-get -y update && apt-get -y install wget flex
+        run: sudo apt-get -y update && sudo apt-get -y install wget flex
 
       - name: Install avr-gcc
         run: wget -P ~ https://blog.zakkemble.net/download/avr-gcc-11.1.0-x64-linux.tar.bz2 && tar -xf ~/avr-gcc-11.1.0-x64-linux.tar.bz2 -C ~ && export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH
