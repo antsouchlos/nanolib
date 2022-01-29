@@ -1,0 +1,33 @@
+name: CMake
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  avr_build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install required packages
+        run: sudo apt-get -y update && sudo apt-get -y install wget flex avr-libc
+
+      - name: Install avr-gcc
+        run: wget -P ~ https://blog.zakkemble.net/download/avr-gcc-11.1.0-x64-linux.tar.bz2 && tar -xf ~/avr-gcc-11.1.0-x64-linux.tar.bz2 -C ~ && export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH
+
+      - name: Configure CMake
+        run: export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH && cmake -B ${{github.workspace}}/examples/build -S ${{github.workspace}}/examples -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+      - name: Build
+        run: export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH && cmake --build ${{github.workspace}}/examples/build --config ${{env.BUILD_TYPE}}
+
+      - name: Test
+        run: echo Hello World!
+
