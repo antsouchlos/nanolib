@@ -10,14 +10,17 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  build:
-    runs-on: lpodkalicki/avr-toolchain
+  avr_build:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Install required packages
-        run: apk update && apk add git
+        run: apt-get -y update && apt-get -y install wget flex
+
+      - name: Install avr-gcc
+        run: wget -P ~ https://blog.zakkemble.net/download/avr-gcc-11.1.0-x64-linux.tar.bz2 && tar -xf ~/avr-gcc-11.1.0-x64-linux.tar.bz2 -C ~ && export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH
 
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/examples/build -S ${{github.workspace}}/examples -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
