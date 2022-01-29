@@ -28,3 +28,6 @@ jobs:
       - name: Build
         run: export PATH=~/avr-gcc-11.1.0-x64-linux/bin:$PATH && cmake --build ${{github.workspace}}/examples/build --config ${{env.BUILD_TYPE}}
 
+      - name: Test
+        run: echo Hello World!
+
