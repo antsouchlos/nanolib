@@ -15,7 +15,24 @@ namespace periph {
 
 
 class System {
+
+    friend class Interrupt_LockGuard;
+
 public:
+
+    static System& get_instance() {
+        static System system;
+        return system;
+    }
+
+    System(const System&)         = delete;
+    void operator=(const System&) = delete;
+
+    Clockspeed get_clockspeed() {
+        return CLOCKSPEED;
+    }
+
+private:
     System() {
         static_assert(std::is_same<decltype(CLOCKSPEED), Clockspeed>::value,
                       "CLOCKSPEED must be of type Clockspeed");
@@ -35,17 +52,20 @@ public:
 
 class Interrupt_LockGuard {
 public:
-    explicit Interrupt_LockGuard() {
-        System::disable_interrupts();
+    explicit Interrupt_LockGuard(System& system) : m_system{system} {
+        m_system.disable_interrupts();
     }
 
     ~Interrupt_LockGuard() {
-        System::enable_interrupts();
+        m_system.enable_interrupts();
     }
 
     Interrupt_LockGuard(const Interrupt_LockGuard&) = delete;
 
     Interrupt_LockGuard& operator=(const Interrupt_LockGuard&) = delete;
+
+private:
+    System& m_system;
 };
 
 
