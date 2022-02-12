@@ -2,9 +2,11 @@
 #define NANOLIB_SYSTEM_H
 
 
+// ATMEGA328p datasheed 13.12.2, p.60
+#define NANOLIB_DEFAULT_CLOCKDIV ClockDivisionFactor::_8
+
 #ifndef NANOLIB_CLOCKDIV
-    // ATMEGA328p datasheed 13.12.2, p.60
-    #define NANOLIB_CLOCKDIV ClockDivisionFactor::_8
+#define NANOLIB_CLOCKDIV NANOLIB_DEFAULT_CLOCKDIV
 #endif
 
 
@@ -37,13 +39,16 @@ public:
     uint16_t get_clockspeed_kHz() {
         // TODO
     }
+
 private:
     System() {
         static_assert(std::is_same<decltype(NANOLIB_CLOCKDIV),
                                    ClockDivisionFactor>::value,
                       "NANOLIB_CLOCKDIV must be of type ClockDivisionFactor");
 
-        reg::CLKPR::CLKPSn::write(NANOLIB_CLOCKDIV);
+        if constexpr (NANOLIB_CLOCKDIV != NANOLIB_DEFAULT_CLOCKDIV) {
+            reg::CLKPR::CLKPSn::write(NANOLIB_CLOCKDIV);
+        }
     }
 
     static void disable_interrupts() {
