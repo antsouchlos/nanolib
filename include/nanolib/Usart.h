@@ -17,21 +17,22 @@ namespace periph {
 
 
 enum Baudrate : uint32_t {
-    _2_4_KHz   = 2400,
-    _4_8_KHz   = 4800,
-    _9_6_KHz   = 9600,
-    _14_4_KHz  = 14400,
-    _19_2_KHz  = 19200,
-    _28_8_KHz  = 28800,
-    _38_4_KHz  = 38400,
-    _57_6_KHz  = 57600,
-    _76_8_KHz  = 76800,
-    _115_2_KHz = 115200,
-    _230_4_KHz = 230400,
+    _2_4_kHz   = 2400,
+    _4_8_kHz   = 4800,
+    _9_6_kHz   = 9600,
+    _14_4_kHz  = 14400,
+    _19_2_kHz  = 19200,
+    _28_8_kHz  = 28800,
+    _38_4_kHz  = 38400,
+    _57_6_kHz  = 57600,
+    _76_8_kHz  = 76800,
+    _115_2_kHz = 115200,
+    _230_4_kHz = 230400,
     _250_kHz   = 250000,
     _500_kHz   = 500000,
-    _1M_Hz     = 1000000,
+    _1_MHz     = 1000000,
 };
+
 
 
 using ClockPolarity = periph_detail::usart_register_set::UCSR0C::ClockPolarity;
@@ -64,8 +65,11 @@ using usart_conf_def =
  */
 
 
-template <Baudrate t_baudrate, typename usart_conf = usart_conf_def>
+template <uint32_t t_baudrate, typename usart_conf = usart_conf_def>
 class Usart {
+
+    template <uint32_t, typename>
+    friend class UsartTest;
 
     using reg = periph_detail::usart_register_set;
 
@@ -106,15 +110,25 @@ private:
 
 
     constexpr static uint16_t get_brr_value() {
+        static_assert(t_baudrate > 0, "The Baudrate must be greater than 0");
+
+        // TODO: Warning when error is too big
+
         // TODO: Deal with double speed
 
-        // ATMEGA328P Datasheet 24.11, p.241
         constexpr uint32_t clock_factor = 16;
         constexpr uint32_t clock_speed  = System::get_clockspeed_Hz();
 
-        constexpr uint32_t value = (clock_speed / clock_factor) / t_baudrate;
+        constexpr uint32_t divisor  = (clock_factor * t_baudrate);
+        constexpr uint32_t dividend = clock_speed + (divisor / 2);
 
-        return value;
+        // ATMEGA328P Datasheet 24.11, p.241
+        constexpr uint32_t value = (dividend / divisor);
+
+        if (value > 0)
+            return value - 1;
+        else
+            return value;
     }
 
     void init_peripheral() {
