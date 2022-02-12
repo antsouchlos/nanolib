@@ -2,12 +2,9 @@
 #define NANOLIB_SYSTEM_H
 
 
-#ifndef NANOLIB_CLOCKSPEED
-#error "Clockspeed not set"
-#endif
-
 #ifndef NANOLIB_CLOCKDIV
-#define NANOLIB_CLOCKDIV ClockDivisionFactor::_1
+    // ATMEGA328p datasheed 13.12.2, p.60
+    #define NANOLIB_CLOCKDIV ClockDivisionFactor::_8
 #endif
 
 
@@ -37,16 +34,11 @@ public:
     System(const System&) = delete;
     void operator=(const System&) = delete;
 
-    Clockspeed get_clockspeed() {
-        return NANOLIB_CLOCKSPEED;
+    uint16_t get_clockspeed_kHz() {
+        // TODO
     }
-
 private:
     System() {
-        static_assert(
-            std::is_same<decltype(NANOLIB_CLOCKSPEED), Clockspeed>::value,
-            "NANOLIB_CLOCKSPEED must be of type Clockspeed");
-
         static_assert(std::is_same<decltype(NANOLIB_CLOCKDIV),
                                    ClockDivisionFactor>::value,
                       "NANOLIB_CLOCKDIV must be of type ClockDivisionFactor");
