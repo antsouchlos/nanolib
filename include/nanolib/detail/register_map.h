@@ -70,6 +70,28 @@ struct gpio_register_set {
 };
 
 
+struct system_register_set {
+    struct CLKPR {
+        enum class ClockDivisionFactor : uint8_t {
+            _1   = 0b0000,
+            _2   = 0b0001,
+            _4   = 0b0010,
+            _8   = 0b0011,
+            _16  = 0b0100,
+            _32  = 0b0101,
+            _64  = 0b0110,
+            _128 = 0b0111,
+            _256 = 0b1000
+        };
+
+        constexpr static uint8_t address = 0x61;
+
+        using CLKPSn = RegisterValueEnum<CLKPR, 0, 4, ClockDivisionFactor>;
+        using CLKPCE = RegisterValue<CLKPR, 7, 1>;
+    };
+};
+
+
 }} // namespace periph::periph_detail
 
 
