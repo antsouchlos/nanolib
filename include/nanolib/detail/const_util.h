@@ -39,6 +39,14 @@ struct has_no_more_bits {
  */
 
 
+template<typename int_t>
+constexpr inline int_t abs(int_t val) {
+    if (val >= 0)
+        return val;
+    else
+        return -val;
+}
+
 template <typename int_t>
 constexpr inline int_t max_int_value() {
     int_t result = 0;

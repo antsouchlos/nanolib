@@ -14,6 +14,10 @@ public:
     uint32_t get_brr_value() {
         return Usart<t_baudrate, usart_conf>::get_brr_value();
     }
+
+    uint8_t get_brr_error() {
+        return Usart<t_baudrate, usart_conf>::get_brr_error();
+    }
 };
 
 } // namespace periph
@@ -48,6 +52,26 @@ TEST(Usart, get_brr_value_int) {
 // TEST(Usart, get_brr_value_double_speed) {
 //     // TODO
 // }
+
+TEST(Usart, get_brr_error) {
+    UsartTest<Baudrate::_2_4_kHz>   test1;
+    UsartTest<Baudrate::_115_2_kHz> test2;
+    UsartTest<Baudrate::_1_MHz>     test3;
+    UsartTest<Baudrate::_76_8_kHz>  test4;
+    UsartTest<Baudrate::_9_6_kHz>   test5;
+
+    uint32_t clock_factor = 16;
+    uint32_t clock_speed  = System::get_clockspeed_Hz();
+
+    uint32_t baudrate_closest_match =
+            clock_speed / ((test4.get_brr_value() + 1) * clock_factor);
+
+    EXPECT_EQ(test1.get_brr_error(), 0);
+    EXPECT_EQ(test2.get_brr_error(), 8);
+    EXPECT_EQ(test3.get_brr_error(), 88);
+    EXPECT_EQ(test4.get_brr_error(), 19);
+    EXPECT_EQ(test5.get_brr_error(), 0);
+}
 
 
 } // namespace
