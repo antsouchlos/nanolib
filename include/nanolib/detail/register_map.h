@@ -108,7 +108,7 @@ struct usart_register_set {
         enum class ClockPolarity : uint8_t {
             tx_rising_rx_falling = 0b0,
             tx_falling_rx_rising = 0b1,
-            async                = 0b0
+            async = 0b0
         };
         enum class StopBits : uint8_t {
             _1 = 0b0,
@@ -116,12 +116,12 @@ struct usart_register_set {
         };
         enum class ParityMode : uint8_t {
             disabled = 0b00,
-            even     = 0b10,
-            odd      = 0b11
+            even = 0b10,
+            odd = 0b11
         };
         enum class UsartMode : uint8_t {
-            async      = 0b00,
-            sync       = 0b01,
+            async = 0b00,
+            sync = 0b01,
             master_spi = 0b11
         };
 
@@ -155,6 +155,28 @@ struct usart_register_set {
 
         using UCSZ0n = RegisterValueEnumConcat<CharacterSize, UCSR0C::UCSZ00,
                                                UCSR0C::UCSZ01, UCSR0B::UCSZ02>;
+    };
+};
+
+
+struct system_register_set {
+    struct CLKPR {
+        enum class ClockDivisionFactor : uint8_t {
+            _1   = 0b0000,
+            _2   = 0b0001,
+            _4   = 0b0010,
+            _8   = 0b0011,
+            _16  = 0b0100,
+            _32  = 0b0101,
+            _64  = 0b0110,
+            _128 = 0b0111,
+            _256 = 0b1000
+        };
+
+        constexpr static uint8_t address = 0x61;
+
+        using CLKPSn = RegisterValueEnum<CLKPR, 0, 4, ClockDivisionFactor>;
+        using CLKPCE = RegisterValue<CLKPR, 7, 1>;
     };
 };
 

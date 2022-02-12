@@ -10,10 +10,9 @@ namespace periph {
 
 // clang-format off
 
-enum class Port      { B, C, D };
-enum class Pin       { _0, _1, _2, _3, _4, _5, _6, _7 };
-enum class Direction { in, out };
-
+enum class Port       { B, C, D };
+enum class Pin        { _0, _1, _2, _3, _4, _5, _6, _7 };
+enum class Direction  { in, out };
 // clang-format on
 
 
