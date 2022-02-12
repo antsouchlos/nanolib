@@ -26,7 +26,7 @@ enum class Baudrate {
 };
 
 
-template<Baudrate t_baudrate>
+template <Baudrate t_baudrate>
 class Usart {
 
     using reg = periph_detail::usart_register_set;
@@ -41,7 +41,6 @@ public:
         set_tx_enabled(true);
 
         // TODO: Interrupts
-
     }
 
     char read() {
