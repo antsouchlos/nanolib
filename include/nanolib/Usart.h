@@ -91,7 +91,7 @@ public:
     void write(char c) {
         // TODO: Write the ninth bit to UCSR0B, if that is required
 
-        while (!tx_complete())
+        while (!tx_buffer_empty())
             ;
         reg::UDR0::UDR0_v::write(c);
     }
@@ -132,8 +132,14 @@ private:
         reg::UCSR0B::TXEN0::write(b);
     }
 
-    bool tx_complete() {
-        return reg::UCSR0A::TXC0::read();
+    bool tx_buffer_empty() {
+        return reg::UCSR0A::UDRE0::read();
+    }
+
+    void flush_rx_buffer() {
+        while (char_pending()) {
+            char dummy = reg::UDR0::UDR0_v::read();
+        }
     }
 };
 
