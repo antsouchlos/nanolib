@@ -1,4 +1,4 @@
-#define CLOCKSPEED Clockspeed::_2
+#define NANOLIB_CLOCKSPEED Clockspeed::_2
 
 
 #include <nanolib/System.h>

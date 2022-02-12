@@ -2,12 +2,17 @@
 #define NANOLIB_SYSTEM_H
 
 
-#ifndef CLOCKSPEED
+#ifndef NANOLIB_CLOCKSPEED
 #error "Clockspeed not set"
+#endif
+
+#ifndef NANOLIB_CLOCKDIV
+#define NANOLIB_CLOCKDIV ClockDivisionFactor::_1
 #endif
 
 
 #include "detail/periph_base.h"
+#include "detail/register_map.h"
 #include "detail/type_traits.h"
 
 
@@ -17,6 +22,11 @@ namespace periph {
 class System {
 
     friend class Interrupt_LockGuard;
+
+    using ClockDivisionFactor =
+        periph_detail::system_register_set::CLKPR::ClockDivisionFactor;
+
+    using reg = periph_detail::system_register_set;
 
 public:
     static System& get_instance() {
@@ -28,13 +38,20 @@ public:
     void operator=(const System&) = delete;
 
     Clockspeed get_clockspeed() {
-        return CLOCKSPEED;
+        return NANOLIB_CLOCKSPEED;
     }
 
 private:
     System() {
-        static_assert(std::is_same<decltype(CLOCKSPEED), Clockspeed>::value,
-                      "CLOCKSPEED must be of type Clockspeed");
+        static_assert(
+            std::is_same<decltype(NANOLIB_CLOCKSPEED), Clockspeed>::value,
+            "NANOLIB_CLOCKSPEED must be of type Clockspeed");
+
+        static_assert(std::is_same<decltype(NANOLIB_CLOCKDIV),
+                                   ClockDivisionFactor>::value,
+                      "NANOLIB_CLOCKDIV must be of type ClockDivisionFactor");
+
+        reg::CLKPR::CLKPSn::write(NANOLIB_CLOCKDIV);
     }
 
     static void disable_interrupts() {
