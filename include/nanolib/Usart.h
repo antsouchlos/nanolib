@@ -2,6 +2,7 @@
 #define NANOLIB_USART_H
 
 
+#include "System.h"
 #include "detail/register_map.h"
 
 
@@ -15,21 +16,21 @@ namespace periph {
  */
 
 
-enum class Baudrate : uint8_t {
-    _2400_KHz,
-    _4800_KHz,
-    _9600_KHz,
-    _14_4_KHz,
-    _19_2_KHz,
-    _28_8_KHz,
-    _38_4_KHz,
-    _57_6_KHz,
-    _76_8_KHz,
-    _115_2_KHz,
-    _230_4_KHz,
-    _250_kHz,
-    _500_kHz,
-    _1M_Hz,
+enum Baudrate : uint32_t {
+    _2_4_KHz   = 2400,
+    _4_8_KHz   = 4800,
+    _9_6_KHz   = 9600,
+    _14_4_KHz  = 14400,
+    _19_2_KHz  = 19200,
+    _28_8_KHz  = 28800,
+    _38_4_KHz  = 38400,
+    _57_6_KHz  = 57600,
+    _76_8_KHz  = 76800,
+    _115_2_KHz = 115200,
+    _230_4_KHz = 230400,
+    _250_kHz   = 250000,
+    _500_kHz   = 500000,
+    _1M_Hz     = 1000000,
 };
 
 
@@ -69,7 +70,7 @@ class Usart {
     using reg = periph_detail::usart_register_set;
 
 public:
-    Usart() {
+    Usart(System& system) : m_system{system} {
         init_peripheral();
         init_data_frame();
         set_baudrate();
@@ -101,11 +102,20 @@ public:
     }
 
 private:
-    constexpr static uint8_t get_brr_value() {
-        // TODO
-        return 0;
-    }
+    System& m_system;
 
+
+    constexpr static uint16_t get_brr_value() {
+        // TODO: Deal with double speed
+
+        // ATMEGA328P Datasheet 24.11, p.241
+        constexpr uint32_t clock_factor = 16;
+        constexpr uint32_t clock_speed  = System::get_clockspeed_Hz();
+
+        constexpr uint32_t value = (clock_speed / clock_factor) / t_baudrate;
+
+        return value;
+    }
 
     void init_peripheral() {
         reg::UCSR0C::UMSEL0n::write(usart_conf::usart_mode);
@@ -119,8 +129,7 @@ private:
     }
 
     void set_baudrate() {
-        constexpr uint8_t brr_value = get_brr_value();
-
+        constexpr uint16_t brr_value = get_brr_value();
         reg::UBRR0::UBRR_v::write<brr_value>();
     }
 
