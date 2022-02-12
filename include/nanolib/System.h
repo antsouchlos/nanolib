@@ -19,13 +19,12 @@ class System {
     friend class Interrupt_LockGuard;
 
 public:
-
     static System& get_instance() {
         static System system;
         return system;
     }
 
-    System(const System&)         = delete;
+    System(const System&) = delete;
     void operator=(const System&) = delete;
 
     Clockspeed get_clockspeed() {
