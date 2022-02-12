@@ -238,31 +238,22 @@ constexpr typename std::underlying_type<enum_t>::type min_enum_val() {
  *
  */
 
+
 template <bool>
-struct STATIC_WARNING_FAILURE;
+struct static_warning_test;
 
 template <>
-struct STATIC_WARNING_FAILURE<true> {
-    struct type {};
+struct static_warning_test<true> {
+    constexpr static uint8_t value = 1;
 };
 template <>
-struct STATIC_WARNING_FAILURE<false> {
-    struct type;
+struct static_warning_test<false> {
+    constexpr static uint8_t value = 0;
 };
 
-template <bool t_b>
-constexpr int raise_warning() {
-    constexpr
-        typename periph::periph_detail::STATIC_WARNING_FAILURE<t_b>::type* ptr =
-            nullptr;
-    delete ptr;
-
-    return 0;
-}
 
 #define STATIC_WARNING(B, MSG)                                                 \
-    constexpr int _NANOLIB_DUMMY = periph::periph_detail::raise_warning<B>();
-
+    int _NANOLIB_DUMMY = 1 / periph::periph_detail::static_warning_test<B>::value;
 
 
 }} // namespace periph::periph_detail

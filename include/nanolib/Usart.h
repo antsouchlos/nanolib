@@ -135,14 +135,14 @@ private:
             }
         }
 
-        constexpr uint32_t baudrate_closest_match =
-                System::get_clockspeed_Hz() / (1 * clock_factor);
-
-        constexpr uint32_t factor =
-                ((baudrate_closest_match * 10) / t_baudrate) - 1;
-
-        // ATMEGA328P Datasheet 24.11, p.240
-        constexpr uint32_t error = factor * factor;
+//        constexpr uint32_t baudrate_closest_match =
+//            System::get_clockspeed_Hz() / (1 * clock_factor);
+//
+//        constexpr uint32_t factor =
+//            ((baudrate_closest_match * 10) / t_baudrate) - 1;
+//
+//        // ATMEGA328P Datasheet 24.11, p.240
+//        constexpr uint32_t error = factor * factor;
 
         STATIC_WARNING(true, "The error in the set baudrate has exceeded 10%");
     }
@@ -159,6 +159,7 @@ private:
     }
 
     void set_baudrate() {
+        STATIC_WARNING(false, "The error in the set baudrate has exceeded 10%");
         constexpr uint16_t brr_value = get_brr_value();
         reg::UBRR0::UBRR_v::write<brr_value>();
     }
