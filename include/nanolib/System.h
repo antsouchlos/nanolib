@@ -31,24 +31,24 @@ class System {
 
     constexpr static uint16_t get_clock_div_num(ClockDivisionFactor div) {
         switch (div) {
-            case ClockDivisionFactor::_1:
-                return 1;
-            case ClockDivisionFactor::_2:
-                return 2;
-            case ClockDivisionFactor::_4:
-                return 4;
-            case ClockDivisionFactor::_8:
-                return 8;
-            case ClockDivisionFactor::_16:
-                return 16;
-            case ClockDivisionFactor::_32:
-                return 32;
-            case ClockDivisionFactor::_64:
-                return 64;
-            case ClockDivisionFactor::_128:
-                return 128;
-            case ClockDivisionFactor::_256:
-                return 256;
+        case ClockDivisionFactor::_1:
+            return 1;
+        case ClockDivisionFactor::_2:
+            return 2;
+        case ClockDivisionFactor::_4:
+            return 4;
+        case ClockDivisionFactor::_8:
+            return 8;
+        case ClockDivisionFactor::_16:
+            return 16;
+        case ClockDivisionFactor::_32:
+            return 32;
+        case ClockDivisionFactor::_64:
+            return 64;
+        case ClockDivisionFactor::_128:
+            return 128;
+        case ClockDivisionFactor::_256:
+            return 256;
         }
     }
 
@@ -62,7 +62,8 @@ public:
     void operator=(const System&) = delete;
 
     constexpr static uint16_t get_clockspeed_kHz() {
-        constexpr uint16_t result = NANOLIB_HW_OSC_FREQ_KHZ / get_clock_div_num(NANOLIB_CLOCKDIV);
+        constexpr uint16_t result =
+            NANOLIB_HW_OSC_FREQ_KHZ / get_clock_div_num(NANOLIB_CLOCKDIV);
         return result;
     }
 
