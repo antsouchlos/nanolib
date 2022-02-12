@@ -232,6 +232,31 @@ constexpr typename std::underlying_type<enum_t>::type min_enum_val() {
 }
 
 
+/*
+ *
+ * STATIC_WARNING
+ *
+ */
+
+template <bool>
+struct static_warning_test;
+
+template <>
+struct static_warning_test<true> {
+    struct type {};
+};
+template <>
+struct static_warning_test<false> {
+    struct type;
+};
+
+
+#define STATIC_WARNING(B, MSG)                                                 \
+    periph::periph_detail::static_warning_test<B>::type* ptr = nullptr;       \
+    delete ptr;
+
+
+
 }} // namespace periph::periph_detail
 
 
