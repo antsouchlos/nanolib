@@ -112,13 +112,12 @@ private:
     constexpr static uint16_t get_brr_value() {
         static_assert(t_baudrate > 0, "The Baudrate must be greater than 0");
 
-        // TODO: Warning when error is too big
-
         // TODO: Deal with double speed
 
         constexpr uint32_t clock_factor = 16;
         constexpr uint32_t clock_speed  = System::get_clockspeed_Hz();
-        constexpr uint32_t max_writable = periph_detail::get_bitmask_ones<uint32_t, 12>::value;
+        constexpr uint32_t max_writable =
+            periph_detail::get_bitmask_ones<uint32_t, 12>::value;
 
         constexpr uint32_t divisor  = (clock_factor * t_baudrate);
         constexpr uint32_t dividend = clock_speed + (divisor / 2);
@@ -134,8 +133,18 @@ private:
             } else {
                 return rounded_value - 1;
             }
-
         }
+
+        constexpr uint32_t baudrate_closest_match =
+                System::get_clockspeed_Hz() / (1 * clock_factor);
+
+        constexpr uint32_t factor =
+                ((baudrate_closest_match * 10) / t_baudrate) - 1;
+
+        // ATMEGA328P Datasheet 24.11, p.240
+        constexpr uint32_t error = factor * factor;
+
+        STATIC_WARNING(true, "The error in the set baudrate has exceeded 10%");
     }
 
     void init_peripheral() {
