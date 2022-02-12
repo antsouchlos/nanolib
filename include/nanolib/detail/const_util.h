@@ -39,7 +39,7 @@ struct has_no_more_bits {
  */
 
 
-template<typename int_t>
+template <typename int_t>
 constexpr inline int_t abs(int_t val) {
     if (val >= 0)
         return val;
@@ -261,8 +261,9 @@ struct static_warning_test<false> {
 
 
 #define STATIC_WARNING(B, MSG)                                                 \
-    int _NANOLIB_DUMMY = 1 / periph::periph_detail::static_warning_test<B>::value;
-
+    int _NANOLIB_DUMMY =                                                       \
+        1 / periph::periph_detail::static_warning_test<B>::value;              \
+    _NANOLIB_DUMMY += 1; // Shuts the compiler up
 
 }} // namespace periph::periph_detail
 
