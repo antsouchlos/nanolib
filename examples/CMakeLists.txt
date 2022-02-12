@@ -111,5 +111,6 @@ add_definitions("-std=c++17")
 include_directories(..)
 
 add_compile_definitions(REQUIRES_TYPE_TRAITS_REP)
-add_avr_executable(gpio src/gpio/gpio.cpp)
+#add_avr_executable(gpio src/gpio/gpio.cpp)
+add_avr_executable(usart src/usart/usart.cpp)
 
