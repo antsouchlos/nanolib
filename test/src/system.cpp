@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#define NANOLIB_CLOCKDIV ClockDivisionFactor::_8
+#define NANOLIB_CLOCKDIV       ClockDivisionFactor::_8
 #define NANOLIB_HW_OSC_FREQ_Hz (uint32_t)(16000000u)
 
 #include <nanolib/System.h>

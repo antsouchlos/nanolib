@@ -38,10 +38,11 @@ TEST(Usart, get_brr_value_enum) {
 
 TEST(Usart, get_brr_value_int) {
     UsartTest<std::numeric_limits<uint32_t>::max()> test1;
-    UsartTest<1> test2;
+    UsartTest<1>                                    test2;
 
     EXPECT_EQ(test1.get_brr_value(), 0);
-    EXPECT_EQ(test2.get_brr_value(), (periph_detail::get_bitmask_ones<uint16_t, 12>::value));
+    EXPECT_EQ(test2.get_brr_value(),
+              (periph_detail::get_bitmask_ones<uint16_t, 12>::value));
 }
 
 // TEST(Usart, get_brr_value_double_speed) {
