@@ -118,17 +118,24 @@ private:
 
         constexpr uint32_t clock_factor = 16;
         constexpr uint32_t clock_speed  = System::get_clockspeed_Hz();
+        constexpr uint32_t max_writable = periph_detail::get_bitmask_ones<uint32_t, 12>::value;
 
         constexpr uint32_t divisor  = (clock_factor * t_baudrate);
         constexpr uint32_t dividend = clock_speed + (divisor / 2);
 
         // ATMEGA328P Datasheet 24.11, p.241
-        constexpr uint32_t value = (dividend / divisor);
+        constexpr uint32_t rounded_value = (dividend / divisor);
 
-        if (value > 0)
-            return value - 1;
-        else
-            return value;
+        if constexpr (rounded_value == 0) {
+            return rounded_value;
+        } else {
+            if constexpr (rounded_value > max_writable) {
+                return max_writable;
+            } else {
+                return rounded_value - 1;
+            }
+
+        }
     }
 
     void init_peripheral() {
