@@ -105,25 +105,26 @@ struct usart_register_set {
 
     struct UCSR0C {
         // clang-format off
-        enum class UsartMode : uint8_t {
-            asynchronous = 0b00,
-            synchronous  = 0b01,
-            master_spi   = 0b11
-        };
-        enum class ParityMode : uint8_t {
-            disabled = 0b00,
-            even = 0b10,
-            odd = 0b11
-        };
-        enum class StopBits : uint8_t {
-            _1 = 0b0,
-            _2 = 0b1
-        };
         enum class ClockPolarity : uint8_t {
             tx_rising_rx_falling = 0b0,
             tx_falling_rx_rising = 0b1,
             async                = 0b0
         };
+        enum class StopBits : uint8_t {
+            _1 = 0b0,
+            _2 = 0b1
+        };
+        enum class ParityMode : uint8_t {
+            disabled = 0b00,
+            even     = 0b10,
+            odd      = 0b11
+        };
+        enum class UsartMode : uint8_t {
+            async      = 0b00,
+            sync       = 0b01,
+            master_spi = 0b11
+        };
+
         // clang-format on
 
 

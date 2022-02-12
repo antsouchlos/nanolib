@@ -8,7 +8,14 @@
 namespace periph {
 
 
-enum class Baudrate {
+/*
+ *
+ * Usart Configuration
+ *
+ */
+
+
+enum class Baudrate : uint8_t {
     _2400_KHz,
     _4800_KHz,
     _9600_KHz,
@@ -26,7 +33,37 @@ enum class Baudrate {
 };
 
 
-template <Baudrate t_baudrate>
+using ClockPolarity = periph_detail::usart_register_set::UCSR0C::ClockPolarity;
+using StopBits      = periph_detail::usart_register_set::UCSR0C::StopBits;
+using ParityMode    = periph_detail::usart_register_set::UCSR0C::ParityMode;
+using UsartMode     = periph_detail::usart_register_set::UCSR0C::UsartMode;
+using CharacterSize = periph_detail::usart_register_set::concat::CharacterSize;
+
+
+template <ClockPolarity t_clock_polarity, StopBits t_stop_bits,
+          ParityMode t_parity_mode, UsartMode t_usart_mode,
+          CharacterSize t_character_size>
+struct usart_conf_t {
+public:
+    constexpr static ClockPolarity clock_polarity = t_clock_polarity;
+    constexpr static StopBits      stop_bits      = t_stop_bits;
+    constexpr static ParityMode    parity_mode    = t_parity_mode;
+    constexpr static UsartMode     usart_mode     = t_usart_mode;
+    constexpr static CharacterSize character_size = t_character_size;
+};
+
+using usart_conf_def =
+    usart_conf_t<ClockPolarity::async, StopBits::_1, ParityMode::disabled,
+                 UsartMode::async, CharacterSize::_8>;
+
+/*
+ *
+ * class Usart
+ *
+ */
+
+
+template <Baudrate t_baudrate, typename usart_conf = usart_conf_def>
 class Usart {
 
     using reg = periph_detail::usart_register_set;
@@ -71,14 +108,14 @@ private:
 
 
     void init_peripheral() {
-        reg::UCSR0C::UMSEL0n::write(reg::UCSR0C::UsartMode::asynchronous);
+        reg::UCSR0C::UMSEL0n::write(usart_conf::usart_mode);
     }
 
     void init_data_frame() {
-        reg::concat::UCSZ0n::write(reg::concat::CharacterSize::_8);
-        reg::UCSR0C::USBS0::write(reg::UCSR0C::StopBits::_1);
-        reg::UCSR0C::UCPOL0::write(reg::UCSR0C::ClockPolarity::async);
-        reg::UCSR0C::UPM0n::write(reg::UCSR0C::ParityMode::disabled);
+        reg::concat::UCSZ0n::write(usart_conf::character_size);
+        reg::UCSR0C::USBS0::write(usart_conf::stop_bits);
+        reg::UCSR0C::UCPOL0::write(usart_conf::clock_polarity);
+        reg::UCSR0C::UPM0n::write(usart_conf::parity_mode);
     }
 
     void set_baudrate() {
