@@ -164,9 +164,7 @@ private:
     }
 
     void set_baudrate() {
-        STATIC_WARNING(
-            get_brr_error() < 15,
-            "The error in the baudrate being set is greater than 15%");
+        static_assert(get_brr_error() < 15, "Error in set baudrate greater than 15%");
 
         constexpr uint16_t brr_value = get_brr_value();
         reg::UBRR0::UBRR_v::write<brr_value>();
