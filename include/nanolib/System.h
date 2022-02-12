@@ -2,7 +2,7 @@
 #define NANOLIB_SYSTEM_H
 
 // Hardware dependent
-#define NANOLIB_HW_OSC_FREQ (uint32_t)(16000u)
+#define NANOLIB_HW_OSC_FREQ_KHZ (uint32_t)(16000u)
 
 // Hardware dependent; ATMEGA328p datasheed 13.12.2, p.60
 #define NANOLIB_DEFAULT_CLOCKDIV ClockDivisionFactor::_8
@@ -62,7 +62,7 @@ public:
     void operator=(const System&) = delete;
 
     constexpr static uint16_t get_clockspeed_kHz() {
-        constexpr uint16_t result = NANOLIB_HW_OSC_FREQ / get_clock_div_num(NANOLIB_CLOCKDIV);
+        constexpr uint16_t result = NANOLIB_HW_OSC_FREQ_KHZ / get_clock_div_num(NANOLIB_CLOCKDIV);
         return result;
     }
 
