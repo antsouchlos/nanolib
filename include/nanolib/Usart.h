@@ -74,7 +74,7 @@ class Usart {
     using reg = periph_detail::usart_register_set;
 
 public:
-    Usart(System& system) : m_system{system} {
+    Usart(System& system) : m_system{&system} {
         init_peripheral();
         init_data_frame();
         set_baudrate();
@@ -106,7 +106,9 @@ public:
     }
 
 private:
-    System& m_system;
+    // Implemented as pointer and not as reference to suppress wrong compiler
+    // warning: "ignoring packed attribute because of unpacked non-POD field"
+    System* m_system;
 
 
     constexpr static uint16_t get_brr_value() {

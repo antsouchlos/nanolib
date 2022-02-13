@@ -7,7 +7,7 @@ using namespace periph;
 
 int main() {
     System&                 system = System::get_instance();
-    Usart<Baudrate::_1_MHz> usart{system};
+    Usart<Baudrate::_115_2_kHz> usart{system};
 
     while (true) {
         while (!usart.char_pending())

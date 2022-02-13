@@ -95,12 +95,12 @@ private:
 
 class Interrupt_LockGuard {
 public:
-    explicit Interrupt_LockGuard(System& system) : m_system{system} {
-        m_system.disable_interrupts();
+    explicit Interrupt_LockGuard(System& system) : m_system{&system} {
+        m_system->disable_interrupts();
     }
 
     ~Interrupt_LockGuard() {
-        m_system.enable_interrupts();
+        m_system->enable_interrupts();
     }
 
     Interrupt_LockGuard(const Interrupt_LockGuard&) = delete;
@@ -108,7 +108,9 @@ public:
     Interrupt_LockGuard& operator=(const Interrupt_LockGuard&) = delete;
 
 private:
-    System& m_system;
+    // Implemented as pointer and not as reference to suppress wrong compiler
+    // warning: "ignoring packed attribute because of unpacked non-POD field"
+    System* m_system;
 };
 
 
