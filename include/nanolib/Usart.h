@@ -171,8 +171,10 @@ private:
     }
 
     void set_baudrate() {
-        static_assert(get_brr_error() < NANOLIB_USART_BAUDRATE_MAX_ERROR_PERCENT,
-                      "Error in set baudrate greater than 'NANOLIB_USART_BAUDRATE_MAX_ERROR_PERCENT'");
+        static_assert(get_brr_error() <
+                          NANOLIB_USART_BAUDRATE_MAX_ERROR_PERCENT,
+                      "Error in set baudrate greater than "
+                      "'NANOLIB_USART_BAUDRATE_MAX_ERROR_PERCENT'");
 
         constexpr uint16_t brr_value = get_brr_value();
         reg::UBRR0::UBRR_v::write<brr_value>();
