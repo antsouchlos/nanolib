@@ -1,4 +1,4 @@
-#define NANOLIB_USART_MAX_ERROR_PERCENT 20
+#define NANOLIB_USART_BAUDRATE_MAX_ERROR_PERCENT 20
 
 #include <nanolib/System.h>
 #include <nanolib/Usart.h>
