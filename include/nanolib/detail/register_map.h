@@ -78,10 +78,7 @@ struct usart_register_set {
     };
 
     struct UCSR0A {
-        enum class TransmissionSpeed {
-            normal = 0,
-            double_ = 1
-        };
+        enum class TransmissionSpeed { normal = 0, double_ = 1 };
 
         constexpr static uint8_t address = 0xC0 + 0x20;
 
