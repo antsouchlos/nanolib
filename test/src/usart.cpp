@@ -64,7 +64,7 @@ TEST(Usart, get_brr_error) {
     uint32_t clock_speed  = System::get_clockspeed_Hz();
 
     uint32_t baudrate_closest_match =
-            clock_speed / ((test4.get_brr_value() + 1) * clock_factor);
+        clock_speed / ((test4.get_brr_value() + 1) * clock_factor);
 
     EXPECT_EQ(test1.get_brr_error(), 0);
     EXPECT_EQ(test2.get_brr_error(), 8);
