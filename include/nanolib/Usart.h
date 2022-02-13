@@ -2,6 +2,11 @@
 #define NANOLIB_USART_H
 
 
+#ifndef NANOLIB_USART_MAX_ERROR_PERCENT
+#define NANOLIB_USART_MAX_ERROR_PERCENT 15
+#endif
+
+
 #include "System.h"
 #include "detail/register_map.h"
 
@@ -166,8 +171,8 @@ private:
     }
 
     void set_baudrate() {
-        static_assert(get_brr_error() < 15,
-                      "Error in set baudrate greater than 15%");
+        static_assert(get_brr_error() < NANOLIB_USART_MAX_ERROR_PERCENT,
+                      "Error in set baudrate greater than 'NANOLIB_USART_MAX_ERROR_PERCENT'");
 
         constexpr uint16_t brr_value = get_brr_value();
         reg::UBRR0::UBRR_v::write<brr_value>();
