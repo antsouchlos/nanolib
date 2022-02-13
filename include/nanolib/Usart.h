@@ -45,23 +45,29 @@ using StopBits      = periph_detail::usart_register_set::UCSR0C::StopBits;
 using ParityMode    = periph_detail::usart_register_set::UCSR0C::ParityMode;
 using UsartMode     = periph_detail::usart_register_set::UCSR0C::UsartMode;
 using CharacterSize = periph_detail::usart_register_set::concat::CharacterSize;
+using TransmissionSpeed =
+    periph_detail::usart_register_set::UCSR0A::TransmissionSpeed;
 
 
 template <ClockPolarity t_clock_polarity, StopBits t_stop_bits,
           ParityMode t_parity_mode, UsartMode t_usart_mode,
-          CharacterSize t_character_size>
+          CharacterSize     t_character_size,
+          TransmissionSpeed t_transmission_speed>
 struct usart_conf_t {
 public:
-    constexpr static ClockPolarity clock_polarity = t_clock_polarity;
-    constexpr static StopBits      stop_bits      = t_stop_bits;
-    constexpr static ParityMode    parity_mode    = t_parity_mode;
-    constexpr static UsartMode     usart_mode     = t_usart_mode;
-    constexpr static CharacterSize character_size = t_character_size;
+    constexpr static ClockPolarity     clock_polarity = t_clock_polarity;
+    constexpr static StopBits          stop_bits      = t_stop_bits;
+    constexpr static ParityMode        parity_mode    = t_parity_mode;
+    constexpr static UsartMode         usart_mode     = t_usart_mode;
+    constexpr static CharacterSize     character_size = t_character_size;
+    constexpr static TransmissionSpeed transmission_speed =
+        t_transmission_speed;
 };
 
 using usart_conf_def =
     usart_conf_t<ClockPolarity::async, StopBits::_1, ParityMode::disabled,
-                 UsartMode::async, CharacterSize::_8>;
+                 UsartMode::async, CharacterSize::_8,
+                 TransmissionSpeed::normal>;
 
 /*
  *
@@ -121,8 +127,10 @@ private:
 
         // TODO: Deal with double speed
 
-        constexpr uint32_t clock_factor = 16;
-        constexpr uint32_t clock_speed  = System::get_clockspeed_Hz();
+        constexpr uint32_t clock_factor =
+            (usart_conf::transmission_speed == TransmissionSpeed::double_) ? 8
+                                                                           : 16;
+        constexpr uint32_t clock_speed = System::get_clockspeed_Hz();
         constexpr uint32_t max_writable =
             periph_detail::get_bitmask_ones<uint32_t, 12>::value;
 
@@ -147,8 +155,10 @@ private:
     constexpr static uint8_t get_brr_error() {
         // TODO: Deal with double speed
 
-        constexpr uint32_t clock_factor = 16;
-        constexpr uint32_t clock_speed  = System::get_clockspeed_Hz();
+        constexpr uint32_t clock_factor =
+            (usart_conf::transmission_speed == TransmissionSpeed::double_) ? 8
+                                                                           : 16;
+        constexpr uint32_t clock_speed = System::get_clockspeed_Hz();
 
         constexpr uint32_t baudrate_closest_match =
             clock_speed / ((get_brr_value() + 1) * clock_factor);
@@ -168,6 +178,7 @@ private:
         reg::UCSR0C::USBS0::write(usart_conf::stop_bits);
         reg::UCSR0C::UCPOL0::write(usart_conf::clock_polarity);
         reg::UCSR0C::UPM0n::write(usart_conf::parity_mode);
+        reg::UCSR0A::U2X0 ::write(usart_conf::transmission_speed);
     }
 
     void set_baudrate() {

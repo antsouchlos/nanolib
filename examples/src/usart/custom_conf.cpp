@@ -9,7 +9,8 @@ using custom_usart_conf = usart_conf_t<ClockPolarity::tx_falling_rx_rising,
                                       StopBits::_2,
                                       ParityMode::even,
                                       UsartMode::sync,
-                                      CharacterSize::_8>;
+                                      CharacterSize::_8,
+                                      TransmissionSpeed::normal>;
 // clang-format on
 
 
