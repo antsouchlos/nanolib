@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.1)
 set(AVR_UPLOADTOOL avrdude)
 #set(AVR_PROGRAMMER avrispmkII)
 set(AVR_PROGRAMMER arduino)
-set(AVR_UPLOADTOOL_PORT /dev/ttyACM0)
-set(AVR_UPLOADTOOL_OPTIONS -b115200 -D)
+set(AVR_UPLOADTOOL_PORT /dev/ttyUSB0)
+set(AVR_UPLOADTOOL_OPTIONS -b57600 -D)
 
 set(AVR_MCU atmega328p)
 set(AVR_H_FUSE 0xd9)
@@ -112,6 +112,7 @@ add_definitions("-fno-threadsafe-statics")
 include_directories(..)
 
 add_compile_definitions(REQUIRES_TYPE_TRAITS_REP)
-#add_avr_executable(gpio src/gpio/gpio.cpp)
-add_avr_executable(gpio src/system/system.cpp)
+
+add_avr_executable(gpio src/gpio/gpio.cpp)
+add_avr_executable(system src/system/system.cpp)
 
