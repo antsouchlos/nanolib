@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.1)
 project(nanolib_unit_tests)
 
 add_definitions("-std=c++17")
-include_directories(../include)
 
 option(PACKAGE_TESTS "Build the tests" ON)
 if(PACKAGE_TESTS)
@@ -11,6 +10,7 @@ if(PACKAGE_TESTS)
     include(GoogleTest)
 endif()
 
+include_directories(..)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/extern/googletest" "extern/googletest")
 

@@ -17,8 +17,6 @@ include(cmake/generic-gcc-avr.cmake)
 set(ENV{CC} "avr-gcc")
 set(ENV{CXX} "avr-g++")
 
-include_directories(../include)
-
 
 project(nanolib_examples)
 
