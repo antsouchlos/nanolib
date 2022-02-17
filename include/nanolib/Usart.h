@@ -3,7 +3,7 @@
 
 
 #ifndef NANOLIB_USART_BAUDRATE_MAX_ERROR_PERCENT
-#define NANOLIB_USART_BAUDRATE_MAX_ERROR_PERCENT 15
+#define NANOLIB_USART_BAUDRATE_MAX_ERROR_PERCENT 5
 #endif
 
 
@@ -178,7 +178,7 @@ private:
         reg::UCSR0C::USBS0::write(usart_conf::stop_bits);
         reg::UCSR0C::UCPOL0::write(usart_conf::clock_polarity);
         reg::UCSR0C::UPM0n::write(usart_conf::parity_mode);
-        reg::UCSR0A::U2X0 ::write(usart_conf::transmission_speed);
+        reg::UCSR0A::U2X0::write(usart_conf::transmission_speed);
     }
 
     void set_baudrate() {
