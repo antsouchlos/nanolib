@@ -6,11 +6,9 @@
 #define NANOLIB_HW_OSC_FREQ_Hz (uint32_t)(16000000u)
 #endif
 
-// Hardware dependent; ATMEGA328p datasheed 13.12.2, p.60
-#define NANOLIB_DEFAULT_CLOCKDIV ClockDivisionFactor::_8
-
 #ifndef NANOLIB_CLOCKDIV
-#define NANOLIB_CLOCKDIV NANOLIB_DEFAULT_CLOCKDIV
+// Hardware dependent; ATMEGA328p datasheed 13.12.2, p.60
+#define NANOLIB_CLOCKDIV ClockDivisionFactor::_8
 #endif
 
 
@@ -76,9 +74,7 @@ private:
                                    ClockDivisionFactor>::value,
                       "NANOLIB_CLOCKDIV must be of type ClockDivisionFactor");
 
-        if constexpr (NANOLIB_CLOCKDIV != NANOLIB_DEFAULT_CLOCKDIV) {
-            reg::CLKPR::CLKPSn::write(NANOLIB_CLOCKDIV);
-        }
+        reg::CLKPR::CLKPSn::write(NANOLIB_CLOCKDIV);
     }
 
     static void disable_interrupts() {
