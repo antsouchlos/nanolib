@@ -2,13 +2,13 @@
 #define NANOLIB_SYSTEM_H
 
 // Hardware dependent
-#define NANOLIB_HW_OSC_FREQ_KHZ (uint32_t)(16000u)
-
-// Hardware dependent; ATMEGA328p datasheed 13.12.2, p.60
-#define NANOLIB_DEFAULT_CLOCKDIV ClockDivisionFactor::_8
+#ifndef NANOLIB_HW_OSC_FREQ_Hz
+#define NANOLIB_HW_OSC_FREQ_Hz (uint32_t)(16000000u)
+#endif
 
 #ifndef NANOLIB_CLOCKDIV
-#define NANOLIB_CLOCKDIV NANOLIB_DEFAULT_CLOCKDIV
+// Hardware dependent; ATMEGA328p datasheed 13.12.2, p.60
+#define NANOLIB_CLOCKDIV ClockDivisionFactor::_8
 #endif
 
 
@@ -61,9 +61,10 @@ public:
     System(const System&) = delete;
     void operator=(const System&) = delete;
 
-    constexpr static uint16_t get_clockspeed_kHz() {
-        constexpr uint16_t result =
-            NANOLIB_HW_OSC_FREQ_KHZ / get_clock_div_num(NANOLIB_CLOCKDIV);
+    constexpr static uint32_t get_clockspeed_Hz() {
+        constexpr uint32_t result =
+            (NANOLIB_HW_OSC_FREQ_Hz / get_clock_div_num(NANOLIB_CLOCKDIV));
+
         return result;
     }
 
@@ -73,9 +74,7 @@ private:
                                    ClockDivisionFactor>::value,
                       "NANOLIB_CLOCKDIV must be of type ClockDivisionFactor");
 
-        if constexpr (NANOLIB_CLOCKDIV != NANOLIB_DEFAULT_CLOCKDIV) {
-            reg::CLKPR::CLKPSn::write(NANOLIB_CLOCKDIV);
-        }
+        reg::CLKPR::CLKPSn::write(NANOLIB_CLOCKDIV);
     }
 
     static void disable_interrupts() {
@@ -92,12 +91,12 @@ private:
 
 class Interrupt_LockGuard {
 public:
-    explicit Interrupt_LockGuard(System& system) : m_system{system} {
-        m_system.disable_interrupts();
+    explicit Interrupt_LockGuard(System& system) : m_system{&system} {
+        m_system->disable_interrupts();
     }
 
     ~Interrupt_LockGuard() {
-        m_system.enable_interrupts();
+        m_system->enable_interrupts();
     }
 
     Interrupt_LockGuard(const Interrupt_LockGuard&) = delete;
@@ -105,7 +104,9 @@ public:
     Interrupt_LockGuard& operator=(const Interrupt_LockGuard&) = delete;
 
 private:
-    System& m_system;
+    // Implemented as pointer and not as reference to suppress wrong compiler
+    // warning: "ignoring packed attribute because of unpacked non-POD field"
+    System* m_system;
 };
 
 

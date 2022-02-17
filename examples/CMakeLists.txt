@@ -115,4 +115,6 @@ add_compile_definitions(REQUIRES_TYPE_TRAITS_REP)
 
 add_avr_executable(gpio src/gpio/gpio.cpp)
 add_avr_executable(system src/system/system.cpp)
+add_avr_executable(usart_echo src/usart/echo.cpp)
+add_avr_executable(usart_custom_conf src/usart/custom_conf.cpp)
 
