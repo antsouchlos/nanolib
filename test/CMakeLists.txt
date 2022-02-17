@@ -10,6 +10,7 @@ if(PACKAGE_TESTS)
     include(GoogleTest)
 endif()
 
+include_directories(..)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/extern/googletest" "extern/googletest")
 
