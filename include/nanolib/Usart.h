@@ -69,6 +69,15 @@ using usart_conf_def =
                  UsartMode::async, CharacterSize::_8,
                  TransmissionSpeed::normal>;
 
+template <CharacterSize t_character_size>
+struct required_usart_data_t {
+    using type = char;
+};
+template <>
+struct required_usart_data_t<CharacterSize::_9> {
+    using type = uint16_t;
+};
+
 /*
  *
  * class Usart
@@ -84,6 +93,9 @@ class Usart {
 
     using reg = periph_detail::usart_register_set;
 
+    using data_t =
+        typename required_usart_data_t<usart_conf::character_size>::type;
+
 public:
     Usart(System& system) : m_system{&system} {
         init_peripheral();
@@ -96,20 +108,39 @@ public:
         // TODO: Interrupts
     }
 
-    char read() {
-        // TODO: Read the ninth bit from UCSR0B, if that is required
+    data_t read() {
+
 
         while (!char_pending())
             ;
-        return reg::UDR0::UDR0_v::read();
+
+        if constexpr (usart_conf::character_size == CharacterSize::_9) {
+            // Ninth bit must be read before the other ones (ATMEGA328P
+            // Datasheet 24.12.3, p.247)
+            uint16_t result = (reg::UCSR0B::RXB80::read() << 8);
+            result += reg::UDR0::UDR0_v::read();
+
+            return result;
+        } else {
+            return reg::UDR0::UDR0_v::read();
+        }
     }
 
-    void write(char c) {
-        // TODO: Write the ninth bit to UCSR0B, if that is required
-
+    void write(data_t c) {
         while (!tx_buffer_empty())
             ;
-        reg::UDR0::UDR0_v::write(c);
+
+        if constexpr (usart_conf::character_size == CharacterSize::_9) {
+            constexpr static uint8_t mask =
+                periph_detail::get_bitmask_ones<uint8_t, 8>::value;
+
+            // Ninth bit must be read before the other ones (ATMEGA328P
+            // Datasheet 24.12.3, p.247)
+            reg::UCSR0B::TXB80::write((c >> 8) & 0b0001);
+            reg::UDR0::UDR0_v::write(c & mask);
+        } else {
+            reg::UDR0::UDR0_v::write(c);
+        }
     }
 
     bool char_pending() {
@@ -124,8 +155,6 @@ private:
 
     constexpr static uint16_t get_brr_value() {
         static_assert(t_baudrate > 0, "The Baudrate must be greater than 0");
-
-        // TODO: Deal with double speed
 
         constexpr uint32_t clock_factor =
             (usart_conf::transmission_speed == TransmissionSpeed::double_) ? 8
@@ -153,8 +182,6 @@ private:
     }
 
     constexpr static uint8_t get_brr_error() {
-        // TODO: Deal with double speed
-
         constexpr uint32_t clock_factor =
             (usart_conf::transmission_speed == TransmissionSpeed::double_) ? 8
                                                                            : 16;
