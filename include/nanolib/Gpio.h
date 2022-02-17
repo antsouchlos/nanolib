@@ -26,13 +26,7 @@ public:
     }
 
     bool read() {
-        if constexpr (t_direction == Direction::out) {
-            return reg::PORTx<t_port>::template PORTxn<t_pin>::template read_as<
-                bool>();
-        } else {
-            // TODO: Check if this works
-            return reg::PINx<t_port>::template PINxn<t_pin>::read();
-        }
+        return reg::PINx<t_port>::template PINxn<t_pin>::read();
     }
 
 private:

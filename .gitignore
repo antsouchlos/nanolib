@@ -1,5 +1,6 @@
 examples/cmake-build-debug/
 examples/cmake-build-release/
+examples/cmake-build-relwithdebinfo/
 examples/build/
 test/cmake-build-debug/
 test/cmake-build-release/
