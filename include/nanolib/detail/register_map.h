@@ -80,7 +80,7 @@ struct usart_register_set {
     struct UCSR0A {
         enum class TransmissionSpeed { normal = 0, double_ = 1 };
 
-        constexpr static uint8_t address = 0xC0 + 0x20;
+        constexpr static uint8_t address = 0xC0;
 
         using MPCM0 = RegisterValue<UCSR0A, 0, 1>;
         using U2X0  = RegisterValueEnum<UCSR0A, 1, 1, TransmissionSpeed>;
@@ -130,7 +130,7 @@ struct usart_register_set {
         // clang-format on
 
 
-        constexpr static uint8_t address = 0xC2 + 0x06;
+        constexpr static uint8_t address = 0xC2;
 
         using UCPOL0  = RegisterValueEnum<UCSR0C, 0, 1, ClockPolarity>;
         using UCSZ00  = RegisterValue<UCSR0C, 1, 1>;
